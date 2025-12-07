@@ -1,0 +1,133 @@
+\documentclass[10pt,twoside,a4paper]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+%\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{balance}
+\usepackage{iflang}
+
+\usepackage[ngerman]{babel}
+%\usepackage[english]{babel}
+
+\IfLanguageName{ngerman}{
+\newcommand*{\WinterSem}{Wintersemester}
+\newcommand*{\SummerSem}{Sommersemester}
+}{
+\newcommand*{\WinterSem}{winter term}
+\newcommand*{\SummerSem}{summer term}
+}
+
+% Calculate semester based on \month and \year
+\ifnum\month<4
+\newcounter{LastYear}
+\setcounter{LastYear}{\year}
+\addtocounter{LastYear}{-1}
+\newcommand{\SemesterShort}{WS \theLastYear/\the\year}
+\newcommand{\SemesterLong}{\WinterSem~\theLastYear/\the\year}
+\else\ifnum\month>9
+\newcounter{NextYear}
+\setcounter{NextYear}{\year}
+\addtocounter{NextYear}{1}
+\newcommand{\SemesterShort}{WS \the\year/\theNextYear}
+\newcommand{\SemesterLong}{\WinterSem~\the\year/\theNextYear}
+\else
+\newcommand{\SemesterShort}{SS \the\year}	
+\newcommand{\SemesterLong}{\SummerSem~\the\year}
+\fi
+\fi
+
+\begin{document}
+
+\author{
+  \IEEEauthorblockN{David Roppelt\\}
+  \IEEEauthorblockA{Lehrstuhl für Informatik 6\\
+    Erlangen, Deutschland\\
+    Email: david.roppelt@fau.de}
+}
+
+\title{Textkompressionsalgorithmen in Datenbanken - Eine Forschungsfeldübersicht
+	%brauch ich den IEEEmemebership command?
+\IfLanguageName{ngerman}{
+  \thanks{Dieser Beitrag entstand im Rahmen des ``Big Data Seminar''s, das im
+  \SemesterLong~vom Lehrstuhl für Informatik 6 (Datenmanagement) der
+  Friedrich-Alexander Universität Erlangen-Nürnberg durchgef"uhrt wurde.}
+}{
+  \thanks{This paper was written as part of the ``Big Data Seminar''
+  which was organized by the Chair of Computer Science 6 (Data Management) at the
+  Friedrich-Alexander Universität Erlangen-Nürnberg during \SemesterLong.}
+}}
+
+
+
+
+% The paper headers
+\markboth{Big Data Seminar \SemesterShort}{David Roppelt: Textkompressionsalgorithmen in Datenbanken - Eine Forschungsfeldübersicht}
+
+\maketitle
+
+\begin{abstract}
+	Leider wird diese Arbeit vom Prokrastination Final Boss geschrieben, welcher dann an seinen normalerweise produktivsten Tagen (kurz vor Abgabe) auch noch unglücklicherweise durch Krankheit zurückgehalten wurde. 
+\end{abstract}
+
+\section{Einleitung}
+\IEEEPARstart{D}{as} Datenvolumen, welches weltweit produziert wird, steigt jedes Jahr weiter an und damit auch die Herausforderungen hinsichtlich Speicherbedarf, Datenübertragungsraten und Abfrageeffizienz. Im Zentrum dieser Problematik stehen Datenbanksysteme, da diese jetzt und in Zukunft die fundamentale Infrastruktur zahlreicher Anwendungen sind. Diese müssen die immer größer werdenden Datenvolumina dauerhaft verwalten und insbesondere auch performant bereitstellen. Aus diesen Gründen gewinnen Textkompressionsalgorithmen zunehmend an Bedeutung, da sie es ermöglichen text-basierte Daten komprimiert zu speichern und im Optimalfall gleichzeitig auch Abfragen effizienter durchzuführen, ohne die Daten vollständig dekomprimieren zu müssen. Dadurch leisten diese einen enormen Beitrag zur Optimierung der Speichernutzung als auch der Verarbeitungsgeschwindigkeit und helfen bei der Bewältigung der momentanen digitalen Transformation auf der Welt.
+
+Die Forschungshistorie im Bereich der Textkompressionsalgorithmen geht sehr weit in die Vergangenheit, aber durch neuere Technologien und Erkenntnisse in diesem Bereich entstehen immer wieder neue Anforderungen und Herausforderungen. Es existieren viele verschiedene Arten von Datenbanken, wobei jede andere Vor- und Nachteile mit sich bringt. Ziel dieser Arbeit ist es daher einen Überblick über die aktuelle Forschung im Bereich von Textkompressionsalgorithmen in Datenbanken zu erarbeiten. Um dieses Ziel zu erreichen sollen zuerst die Grundlagen von Textkomprimierung und Datenbanken geschaffen werden. Außerdem sollen verschieden Forschungsansätze betrachtet werden und mit gängigen Verfahren verglichen werden.
+
+Aufbau der Arbeit --TODO--
+
+\section{Hauptteil}
+\subsection{Verwandte Arbeiten}
+Raichand und Aggarwal \cite{Raichand} stellen einen grundlegenden Überblick über die bestehende Forschung zu Kompressionsverfahren in spaltenorientierten Datenbanksystemen bereit. Das Paper betrachtet die historische Entwicklung in diesem Bereich genauer und zeigt, dass Kompressionstechniken schon lange bekannt waren, bevor sie im Kontext der Datenbankperformanz unterscuht wurden. Es werden verschiedene zentrale algorithmische Ansätze, wie Dictionary Encoding, Run-Length Encoding, Null Suppression und Lempel-Ziv-basierte Verfahren zusammengefasst. Außerdem hebt der Artikel hervor warum spaltenorientierte Datenbanksysteme aufgrund ihrer Speicherorganisation besonders hohe Kompressionsraten erzielen. -TODO- Vergleich mit/Abgrenzung zur eigenen Arbeit
+
+-TODO- weitere verwandte Arbeiten
+
+\subsection{Konzept}
+\subsubsection{Verlustfreie und verlustbehaftete Kompression}
+Datenkompression bezeichnet Verfahren zur Verringerung des Speicherbedarfs digitaler Informationen. Diese können grundsätzlich in zwei Klassen eingeteilt werden: verlustfreie und verlustbehaftete Kompression.
+
+Wie der Name es schon vermuten lässt, können bei der verlustfreien Kompression die ursprünglichen Daten vollständig und bitgenau rekonstruiert werden. Verlustfreie Verfahren nutzen daher die inhärente Redundanz in Daten, indem sie häufig vorkommende Muster effizient kodieren.\cite{salomon}
+
+Demgegenüber stehen verlustbehaftete Verfahren, bei denen die Rekonstruktion nur eine approximierte Version der ursprünglichen Daten liefert. Dadurch können für den Menschen oder die Anwendung weniger relevante Informationen gezielt entfernt werden und deutlich höhere Kompressionsraten erreicht werden.\cite{salomon}
+
+Im Kontext von Datenbanksystemen ist vor allem die verlustfreie Kompression von Bedeutung, da die gespeicherten Daten semantisch exakt erhalten bleiben sollen.
+
+\subsubsection{Prinzipien der Informationsreduktion}
+Drei zentrale theoretischen Konzepte, die die Wirksamkeit und Grenzen von Kompressionsverfahren bestimmen, sind \textbf{Entropie}, \textbf{Redundanz} und \textbf{Kodierung}. Diese Prinzipien bilden die Basis nahezu aller modernen Kompressionsalgorithmen und sind der Schlüssel dafür, weshalb bestimmte Verfahren für bestimmte Datentypen besonders gut geeignet sind.
+
+Die \textbf{Entropie} beschreibt die durchschnittliche Informationsmenge, die in einem Symbol einer Datenquelle enthalten ist. Somit definiert sie eine theoretisch Untergrenze für das maximale Kompressionspotenzial einer Datenquelle. Enthalten die zu komprimierenden Daten wenig strukturelle Muster, bedeutet das, dass die Quelle hohe Entropie hat und die Daten damit nur begrenzt komprimierbar sind. Daraus folgt, dass Daten mit geringer Entropie prinzipiell hohe Kompressionsraten ermöglichen. \cite{salomon}
+
+TODO Redundanz
+
+TODO Kodierung
+
+\subsubsection{Modellierungsansätze der Kompression}
+\subsubsection{Bewertungskriterien von Kompressionsverfahren}
+\subsubsection{Gängige Kompressionsalgorithmen}
+\subsubsection{Datenbankarchitekturen und ihre Anforderungen}
+\section{Fragen}
+Wie viele Seiten sollte die Arbeit nochmal insgesamt haben?
+
+Ich hab das Gefühl, dass mein Konzept Abschnitt (vor allem wegen der Grundlagen) sehr lang wird. Ist das ein Problem oder ist das ganz normal?
+
+Mein Plan wäre es dann am Ende des Konzept Abschnitts die gefundenen interessanten Paper der aktuellen Forschung vorzustellen und dann im Implementierungskapitel anhand der vorgestellten Grundlagen zu bewerten. Ist das ein möglicher Weg oder sollte ich lieber anders vorgehen? (Bin immer noch ein wenig verwirrt von der Namensgebung Implementierung im Falle einer Forschungsübersicht)
+
+\begin{thebibliography}{1}
+\bibitem{Raichand}
+P. Raichand and R. Aggarwal. ``A SHORT SURVEY OF DATA COMPRESSION TECHNIQUES FOR
+COLUMN ORIENTED DATABASES'' in  \textit{Journal of Global Research in Computer Science, vol. 4, no. 7, pp. 43-46, 2013.}
+\bibitem{salomon}
+D. Salomon. ``Data Compression – The Complete Reference'', \textit{3rd ed., Springer, 2004.}
+\end{thebibliography}
+
+\end{document}
+
+
