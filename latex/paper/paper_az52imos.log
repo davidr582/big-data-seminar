@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.27)  7 DEC 2025 18:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.27)  15 JAN 2026 20:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -369,7 +369,7 @@ Language: ngermanb 2024/12/10 v2.15 German support for babel (post-1996 orthogr
 aphy)
 Package babel Info: Making " an active character on input line 122.
 )))
-\c@NextYear=\count315
+\c@LastYear=\count315
 
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
@@ -377,7 +377,7 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count316
 ) (paper_az52imos.aux
 Package babel Info: 'ngerman' activates 'ngerman' shorthands.
-(babel)             Reported on input line 9.
+(babel)             Reported on input line 8.
 )
 \openout1 = `paper_az52imos.aux'.
 
@@ -444,9 +444,15 @@ G,.JBIG2,.JB2,.eps]
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Underfull \hbox (badness 10000) in paragraph at lines 95--96
- \OT1/ptm/m/it/10 1) Ver-lust-freie und ver-lust-be-haf-te-te Kom-pres-si-on: [
-][]
+Underfull \hbox (badness 2409) in paragraph at lines 87--88
+\OT1/ptm/b/n/10 Laufl[]angenkodierung\OT1/ptm/m/n/10 , \OT1/ptm/b/n/10 Null-un-
+ter-dr[]uckung \OT1/ptm/m/n/10 und \OT1/ptm/b/n/10 Lempel-
+ []
+
+
+Underfull \hbox (badness 5681) in paragraph at lines 95--96
+ \OT1/ptm/m/it/10 1) \OT1/ptm/b/it/10 Ver-lust-freie und ver-lust-be-haf-te-te 
+Kom-pres-si-on\OT1/ptm/m/it/10 : [][]
  []
 
 
@@ -455,41 +461,55 @@ Underfull \hbox (badness 1721) in paragraph at lines 95--96
 ung
  []
 
-
-Underfull \hbox (badness 1762) in paragraph at lines 104--105
- \OT1/ptm/m/it/10 2) Prin-zi-pi-en der In-for-ma-ti-ons-re-duk-ti-on: [][] \OT1
-/ptm/m/n/10 Drei zen-tra-le
- []
-
 [1{C:/Users/David/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Da
 vid/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
-] [2
-
 ]
-(paper_az52imos.aux)
+Underfull \hbox (badness 2735) in paragraph at lines 129--130
+[]\OT1/ptm/m/n/10 Ein wei-te-res wich-ti-ges Kri-te-ri-um ist der \OT1/ptm/b/n/
+10 zus[]atzliche
+ []
+
+[2]
+Underfull \hbox (badness 1902) in paragraph at lines 133--134
+[]\OT1/ptm/m/n/10 Insgesamt zeigt sich, dass die Be-wer-tung von Kom-
+ []
+
+
+Underfull \hbox (badness 1867) in paragraph at lines 135--136
+ \OT1/ptm/m/it/10 5) \OT1/ptm/b/it/10 G[]angige Kom-pres-si-ons-al-go-rith-men\
+OT1/ptm/m/it/10 : [][] \OT1/ptm/m/n/10 Auf-bau-end auf
+ []
+
+
+Underfull \hbox (badness 2343) in paragraph at lines 143--144
+\OT1/ptm/m/n/10 Da-ten-bank-sys-te-men ein-ge-setzt, da dort oft vie-le iden-ti
+-
+ []
+
+[3] (paper_az52imos.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 6135 strings out of 467870
- 109644 string characters out of 5418354
- 536436 words of memory out of 5000000
+ 6136 strings out of 467870
+ 109651 string characters out of 5418354
+ 541436 words of memory out of 5000000
  34931 multiletter control sequences out of 15000+600000
- 662554 words of font info for 94 fonts, out of 8000000 for 9000
+ 663650 words of font info for 95 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 59i,6n,67p,1031b,192s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 59i,6n,67p,1030b,185s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pf
 b><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.p
 fb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.p
 fb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on paper_az52imos.pdf (2 pages, 67091 bytes).
+Output written on paper_az52imos.pdf (3 pages, 82203 bytes).
 PDF statistics:
- 30 PDF objects out of 1000 (max. 8388607)
+ 33 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -48,9 +48,7 @@
 
 \author{
   \IEEEauthorblockN{David Roppelt\\}
-  \IEEEauthorblockA{Lehrstuhl für Informatik 6\\
-    Erlangen, Deutschland\\
-    Email: david.roppelt@fau.de}
+  \IEEEauthorblockA{Email: david.roppelt@fau.de}
 }
 
 \title{Textkompressionsalgorithmen in Datenbanken - Eine Forschungsfeldübersicht
@@ -78,47 +76,76 @@
 \end{abstract}
 
 \section{Einleitung}
-\IEEEPARstart{D}{as} Datenvolumen, welches weltweit produziert wird, steigt jedes Jahr weiter an und damit auch die Herausforderungen hinsichtlich Speicherbedarf, Datenübertragungsraten und Abfrageeffizienz. Im Zentrum dieser Problematik stehen Datenbanksysteme, da diese jetzt und in Zukunft die fundamentale Infrastruktur zahlreicher Anwendungen sind. Diese müssen die immer größer werdenden Datenvolumina dauerhaft verwalten und insbesondere auch performant bereitstellen. Aus diesen Gründen gewinnen Textkompressionsalgorithmen zunehmend an Bedeutung, da sie es ermöglichen text-basierte Daten komprimiert zu speichern und im Optimalfall gleichzeitig auch Abfragen effizienter durchzuführen, ohne die Daten vollständig dekomprimieren zu müssen. Dadurch leisten diese einen enormen Beitrag zur Optimierung der Speichernutzung als auch der Verarbeitungsgeschwindigkeit und helfen bei der Bewältigung der momentanen digitalen Transformation auf der Welt.
+\IEEEPARstart{D}{as} Datenvolumen, welches weltweit produziert wird, steigt jedes Jahr weiter an und damit auch die Herausforderungen hinsichtlich Speicherbedarf, Datenübertragungsraten und Abfrageeffizienz. Im Zentrum dieser Problematik stehen Datenbanksysteme, da diese jetzt und in Zukunft die fundamentale Infrastruktur zahlreicher Anwendungen sind. Diese müssen die immer größer werdenden Datenvolumina dauerhaft verwalten und insbesondere auch performant bereitstellen. Aus diesen Gründen gewinnen Textkompressionsalgorithmen zunehmend an Bedeutung, da sie es ermöglichen textbasierte Daten komprimiert zu speichern und im Optimalfall gleichzeitig auch Abfragen effizienter durchzuführen, ohne die Daten vollständig dekomprimieren zu müssen. Dadurch leisten diese einen enormen Beitrag zur Optimierung der Speichernutzung als auch der Verarbeitungsgeschwindigkeit und helfen bei der Bewältigung der momentanen digitalen Transformation auf der Welt.
 
-Die Forschungshistorie im Bereich der Textkompressionsalgorithmen geht sehr weit in die Vergangenheit, aber durch neuere Technologien und Erkenntnisse in diesem Bereich entstehen immer wieder neue Anforderungen und Herausforderungen. Es existieren viele verschiedene Arten von Datenbanken, wobei jede andere Vor- und Nachteile mit sich bringt. Ziel dieser Arbeit ist es daher einen Überblick über die aktuelle Forschung im Bereich von Textkompressionsalgorithmen in Datenbanken zu erarbeiten. Um dieses Ziel zu erreichen sollen zuerst die Grundlagen von Textkomprimierung und Datenbanken geschaffen werden. Außerdem sollen verschieden Forschungsansätze betrachtet werden und mit gängigen Verfahren verglichen werden.
+Die Forschungshistorie im Bereich der Textkompressionsalgorithmen geht sehr weit in die Vergangenheit, aber durch neuere Technologien und Erkenntnisse in diesem Bereich entstehen immer wieder neue Anforderungen und Herausforderungen. Es existieren viele verschiedene Arten von Datenbanken, wobei jede andere Vor- und Nachteile mit sich bringt. Ziel dieser Arbeit ist es einen Überblick über die aktuelle Forschung im Bereich von Textkompressionsalgorithmen in Datenbanken zu erarbeiten. Um dieses Ziel zu erreichen sollen zuerst die Grundlagen von Textkomprimierung und Datenbanken geschaffen werden. Außerdem sollen verschieden Forschungsansätze betrachtet werden und mit gängigen Verfahren verglichen werden.
 
 Aufbau der Arbeit --TODO--
 
 \section{Hauptteil}
 \subsection{Verwandte Arbeiten}
-Raichand und Aggarwal \cite{Raichand} stellen einen grundlegenden Überblick über die bestehende Forschung zu Kompressionsverfahren in spaltenorientierten Datenbanksystemen bereit. Das Paper betrachtet die historische Entwicklung in diesem Bereich genauer und zeigt, dass Kompressionstechniken schon lange bekannt waren, bevor sie im Kontext der Datenbankperformanz unterscuht wurden. Es werden verschiedene zentrale algorithmische Ansätze, wie Dictionary Encoding, Run-Length Encoding, Null Suppression und Lempel-Ziv-basierte Verfahren zusammengefasst. Außerdem hebt der Artikel hervor warum spaltenorientierte Datenbanksysteme aufgrund ihrer Speicherorganisation besonders hohe Kompressionsraten erzielen. -TODO- Vergleich mit/Abgrenzung zur eigenen Arbeit
+Raichand und Aggarwal \cite{Raichand} stellen einen grundlegenden Überblick über die bestehende Forschung zu Kompressionsverfahren in spaltenorientierten Datenbanksystemen bereit. Das Paper betrachtet die historische Entwicklung in diesem Bereich genauer und zeigt, dass Kompressionstechniken schon lange bekannt waren, bevor sie im Kontext der Datenbankperformanz unterscuht wurden. Es werden verschiedene zentrale algorithmische Ansätze, wie \textbf{Wörterbuchkodierung}, \textbf{Lauflängenkodierung}, \textbf{Nullunterdrückung} und \textbf{Lempel-Ziv-basierte} Verfahren zusammengefasst. Außerdem hebt der Artikel hervor warum spaltenorientierte Datenbanksysteme aufgrund ihrer Speicherorganisation besonders hohe Kompressionsraten erzielen. -TODO- Vergleich mit/Abgrenzung zur eigenen Arbeit
 
 -TODO- weitere verwandte Arbeiten
 
 \subsection{Konzept}
-\subsubsection{Verlustfreie und verlustbehaftete Kompression}
+Diese Sektion führt die grundlegenden Konzepte und Begriffe ein, die für das Verständnis von Textkompressionsverfahren im Kontext von Datenbanksystemen erforderlich sind. Ziel ist es, einen einheitlichen begrifflichen und theoretischen Rahmen zu schaffen, der die Einordnung und Bewertung der in den folgenden Kapiteln diskutierten Algorithmen und Forschungsarbeiten ermöglicht.
+
+\subsubsection{\textbf{Verlustfreie und verlustbehaftete Kompression}}
 Datenkompression bezeichnet Verfahren zur Verringerung des Speicherbedarfs digitaler Informationen. Diese können grundsätzlich in zwei Klassen eingeteilt werden: verlustfreie und verlustbehaftete Kompression.
 
 Wie der Name es schon vermuten lässt, können bei der verlustfreien Kompression die ursprünglichen Daten vollständig und bitgenau rekonstruiert werden. Verlustfreie Verfahren nutzen daher die inhärente Redundanz in Daten, indem sie häufig vorkommende Muster effizient kodieren.\cite{salomon}
 
 Demgegenüber stehen verlustbehaftete Verfahren, bei denen die Rekonstruktion nur eine approximierte Version der ursprünglichen Daten liefert. Dadurch können für den Menschen oder die Anwendung weniger relevante Informationen gezielt entfernt werden und deutlich höhere Kompressionsraten erreicht werden.\cite{salomon}
 
-Im Kontext von Datenbanksystemen ist vor allem die verlustfreie Kompression von Bedeutung, da die gespeicherten Daten semantisch exakt erhalten bleiben sollen.
+Im Kontext von Datenbanksystemen ist vor allem die verlustfreie Kompression von Bedeutung, da die gespeicherten Daten semantisch exakt erhalten bleiben sollen. Dennoch gibt es spezialisierte Szenarien in welchen auch die verlustbehaftete Kompression Anwendung findet.
 
-\subsubsection{Prinzipien der Informationsreduktion}
+\subsubsection{\textbf{Prinzipien der Informationsreduktion}}
 Drei zentrale theoretischen Konzepte, die die Wirksamkeit und Grenzen von Kompressionsverfahren bestimmen, sind \textbf{Entropie}, \textbf{Redundanz} und \textbf{Kodierung}. Diese Prinzipien bilden die Basis nahezu aller modernen Kompressionsalgorithmen und sind der Schlüssel dafür, weshalb bestimmte Verfahren für bestimmte Datentypen besonders gut geeignet sind.
 
 Die \textbf{Entropie} beschreibt die durchschnittliche Informationsmenge, die in einem Symbol einer Datenquelle enthalten ist. Somit definiert sie eine theoretisch Untergrenze für das maximale Kompressionspotenzial einer Datenquelle. Enthalten die zu komprimierenden Daten wenig strukturelle Muster, bedeutet das, dass die Quelle hohe Entropie hat und die Daten damit nur begrenzt komprimierbar sind. Daraus folgt, dass Daten mit geringer Entropie prinzipiell hohe Kompressionsraten ermöglichen. \cite{salomon}
 
-TODO Redundanz
+\textbf{Redundanz} bezeichnet den Anteil von Information in einer Datenquelle, der keine neue Information enthält. Dieser Anteil kann daher entfernt werden, ohne die Fähigkeit zur exakten Rekonstruktion der ursprünglichen Daten zu verlieren. Im Bereich der Datenkompression entsteht Redundanz oft durch statistische Regelmäßigkeiten, wiederkehrende Muster oder strukturelle Korrelationen innerhalb der Daten. Dieses Prinzip bildet die grundlegende Voraussetzung für die Reduktion des Datenumfangs. \cite{salomon}
 
-TODO Kodierung
+\textbf{Kodierung} beschreibt im Kontext der Datenkompression die systematische Zuordnung von Symbolen einer Datenquelle zu Codewörtern. Die Länge und Struktur der Codewörter wird dabei an die statistischen Eigenschaften der Quelle angepasst. Durch diese Abbildung können häufig auftretende Symbole effizienter repräsentiert werden. Das sorgt insgesamt für eine kompaktere Gesamtdarstellung der Daten. Damit die ursprünglichen Daten verlustfrei rekonstruiert werden können, muss die Zuordnung eindeutig dekodierbar bleiben. \cite{salomon}
 
-\subsubsection{Modellierungsansätze der Kompression}
-\subsubsection{Bewertungskriterien von Kompressionsverfahren}
-\subsubsection{Gängige Kompressionsalgorithmen}
+\subsubsection{\textbf{Modellierungsansätze der Kompression}}
+Kompressionsverfahren unterscheiden sich nicht nur hinsichtlich ihrer konkreten Algorithmen, sondern auch in der Art und Weise, wie sie die zugrunde liegende Datenquelle modellieren. Die Wahl des Modellierungsansatzes bestimmt maßgeblich, welche Formen von Redundanz ausgenutzt werden können und wie effizient eine Kompression ausfällt. In der Literatur lassen sich zwei grundlegende Ansätze unterscheiden: \textbf{statistische Modellierung} und \textbf{wörterbuchbasierte Modellierung}. \cite{salomon}
+
+Bei der \textbf{statistischen Modellierung} wird die Datenquelle durch Wahrscheinlichkeitsverteilungen ihrer Symbole beschrieben. Ziel ist es, die Häufigkeit des Auftretens einzelner Symbole oder Symbolfolgen zu erfassen und diese Information zur Konstruktion effizienter Codes zu nutzen. Symbole mit hoher Auftretenswahrscheinlichkeit werden dabei kürzer kodiert als seltene Symbole. Die theoretische Grundlage dieses Ansatzes bildet die Informationstheorie, insbesondere das Konzept der Entropie, welche eine untere Schranke für die durchschnittliche Codewortlänge definiert. Zu den bekanntesten Verfahren dieses Ansatzes zählen variable-Längen-Kodierungen, Präfixcodes sowie Huffman- und arithmetische Kodierung. Statistische Verfahren eignen sich besonders für Datenquellen mit stabilen oder gut approximierbaren Wahrscheinlichkeitsverteilungen. \cite{salomon}
+
+
+Demgegenüber steht die \textbf{wörterbuchbasierte Modellierung}, bei der wiederkehrende Muster, Teilstrings oder Symbolsequenzen explizit identifiziert und durch Referenzen auf ein dynamisch oder statisch aufgebautes Wörterbuch ersetzt werden. Anstatt einzelne Symbole probabilistisch zu bewerten, konzentriert sich dieser Ansatz auf strukturelle Wiederholungen innerhalb der Daten. Die bekanntesten Vertreter dieses Modells sind die Lempel-Ziv-Verfahren, darunter \textbf{LZ77}, \textbf{LZ78} und deren Weiterentwicklungen. Wörterbuchbasierte Verfahren sind insbesondere bei textuellen Daten und Daten mit hoher Wiederholungsrate effektiv, da sie ohne explizite Wahrscheinlichkeitsmodelle auskommen und sich adaptiv an die Struktur der Eingabedaten anpassen können. \cite{salomon}
+
+
+In der Praxis werden beide Modellierungsansätze häufig kombiniert, um ihre jeweiligen Stärken auszunutzen. Ein prominentes Beispiel hierfür ist das Deflate-Verfahren, das eine Lempel-Ziv-basierte Vorverarbeitung mit anschließender statistischer Kodierung verbindet. Solche hybriden Ansätze sind auch im Kontext von Datenbanksystemen weit verbreitet, da sie sowohl gute Kompressionsraten als auch akzeptable Laufzeiten ermöglichen. Die Wahl des Modellierungsansatzes stellt somit einen zentralen Designentscheid bei der Entwicklung und Auswahl von Kompressionsverfahren dar. \cite{salomon}
+\subsubsection{\textbf{Bewertungskriterien von Kompressionsverfahren}}
+Zur Beurteilung und zum Vergleich von Kompressionsverfahren werden verschiedene quantitative und qualitative Kriterien herangezogen. Diese Bewertungskriterien erfassen sowohl die Effizienz der Datenreduktion als auch die Auswirkungen auf Rechenaufwand, Speicherverbrauch und Anwendbarkeit. Eine isolierte Betrachtung einzelner Kennzahlen ist dabei meist nicht ausreichend, da Kompressionsverfahren typischerweise einen Zielkonflikt zwischen \textbf{Kompressionsrate} und \textbf{Laufzeitverhalten} aufweisen. \cite{salomon}
+
+Ein zentrales Maß ist die \textbf{Kompressionsrate}, die das Verhältnis zwischen der Größe der komprimierten Daten und der ursprünglichen Datenmenge beschreibt. Sie gibt an, welcher Anteil der Originalgröße nach der Kompression verbleibt. Eng damit verwandt ist der \textbf{Kompressionsfaktor}, der das inverse Verhältnis darstellt und angibt, um welchen Faktor die Datenmenge reduziert wurde. Diese Kennzahlen erlauben eine direkte Aussage über die erzielte Platzersparnis, sagen jedoch nichts über den erforderlichen Rechenaufwand aus. \cite{salomon}
+
+Neben der reinen Datenreduktion spielt die \textbf{Geschwindigkeit der Kompression und Dekompression} eine wesentliche Rolle. Sie wird häufig in Form des Durchsatzes oder der benötigten Rechenzyklen pro Byte gemessen. Insbesondere in datenbanknahen Anwendungsszenarien ist eine schnelle Dekompression von hoher Bedeutung, da komprimierte Daten oft während der Anfrageverarbeitung gelesen und verarbeitet werden müssen. Verfahren mit hoher Kompressionsrate, aber hohem Rechenaufwand können in solchen Fällen ungeeignet sein. \cite{salomon}
+
+Ein weiteres wichtiges Kriterium ist der \textbf{zusätzliche Speicherbedarf}, den ein Kompressionsverfahren verursacht. Dieser umfasst etwa Tabellen, Wörterbücher oder Hilfsstrukturen, die für Kodierung und Dekodierung erforderlich sind. Verfahren mit großem Speichermehraufwand können insbesondere bei großen Datenmengen oder in speicherbeschränkten Systemen nachteilig sein. Ebenso relevant ist die Frage, ob ein Verfahren im sequentiell oder blockweise arbeitet, da dies Einfluss auf Latenz und Speicherbedarf hat. \cite{salomon}
+
+Für den Einsatz in Datenbanksystemen gewinnt zudem die Unterstützung von \textbf{direktem Zugriff} an Bedeutung. Kompressionsverfahren, die einen direkten Zugriff auf einzelne Datenwerte oder Datenbereiche ermöglichen, ohne eine vollständige Dekompression durchzuführen, sind hier besonders vorteilhaft. Diese Eigenschaft beeinflusst maßgeblich die Eignung eines Verfahrens für unterschiedliche Datenbankarchitekturen und Abfragearten. \cite{salomon}
+
+Insgesamt zeigt sich, dass die Bewertung von Kompressionsverfahren stets anwendungsabhängig erfolgen muss. Während einige Verfahren auf maximale Datenreduktion optimiert sind, priorisieren andere geringe Latenz oder einfache Implementierbarkeit. Die Wahl eines geeigneten Verfahrens stellt daher einen Kompromiss zwischen mehreren, teils konkurrierenden Bewertungskriterien dar. \cite{salomon}
+\subsubsection{\textbf{Gängige Kompressionsalgorithmen}}
+Aufbauend auf den beschriebenen Prinzipien und Modellierungsansätzen haben sich im Laufe der Zeit verschiedene Kompressionsalgorithmen etabliert. Je nach Datentyp und Anwendungsszenario weisen diese unterschiedliche Eigenschaften auf.  \cite{salomon}
+
+Die \textbf{Huffman-Kodierung} ist eines der bekanntesten statistischen Kompressionsverfahren. Sie basiert auf der Konstruktion eines präfixfreien Codes, bei dem die Länge der Codewörter invers proportional zur Auftretenswahrscheinlichkeit der jeweiligen Symbole ist. Häufig vorkommende Symbole erhalten kurze Codewörter, während seltene Symbole längere Repräsentationen verwenden. Die Huffman-Kodierung ist optimal im Sinne der minimalen mittleren Codewortlänge für ganzzahlige Codewortlängen und wird häufig als Basiskomponente in komplexeren Kompressionsverfahren eingesetzt. \cite{salomon}
+
+\textbf{Lempel-Ziv-basierte Kompressionsverfahren} verfolgen einen wörterbuchbasierten Ansatz und identifizieren wiederkehrende Muster oder Teilstrings innerhalb der Eingabedaten. Anstatt diese mehrfach zu speichern, werden Referenzen auf bereits bekannte Sequenzen verwendet. Zu den klassischen Vertretern zählen LZ77, LZ78 und LZW, die sich insbesondere in der Art und Weise der Wörterbuchverwaltung unterscheiden. Diese Verfahren arbeiten adaptiv und benötigen keine vorgelagerte statistische Analyse der Daten, was sie besonders flexibel für unterschiedliche Datentypen macht. Aufgrund ihrer Effizienz und Robustheit bilden Lempel-Ziv-Verfahren die Grundlage zahlreicher verbreiteter Formate und Systeme. \cite{salomon}
+
+Die \textbf{Lauflängenkodierung} ist ein einfaches strukturelles Kompressionsverfahren, das auf der Komprimierung aufeinanderfolgender identischer Symbole basiert. Wiederholungen werden durch die Kombination aus Symbol und Wiederholungsanzahl ersetzt. Lauflängenkodierung ist besonders effektiv bei Daten mit langen Sequenzen identischer Werte, etwa bei bestimmten Textmustern oder spaltenorientierten Daten mit geringer Wertediversität. Bei stark variierenden Daten kann das Verfahren jedoch zu keiner oder sogar negativer Kompression führen. \cite{salomon}
+
+Die \textbf{Wörterbuchkodierung} ersetzt häufig auftretende Werte durch kompakte Referenzen auf ein zentrales Wörterbuch. Dieses Verfahren wird insbesondere in spaltenorientierten Datenbanksystemen eingesetzt, da dort oft viele identische Attributwerte auftreten. Ergänzend dazu reduziert die Nullunterdrückung den Speicherbedarf, indem explizite Repräsentationen von Null- oder Standardwerten vermieden werden. Beide Verfahren zeichnen sich durch geringen Rechenaufwand und die Möglichkeit des direkten Zugriffs auf einzelne Datenwerte aus, was sie für datenbanknahe Anwendungen besonders geeignet macht. \cite{salomon}
+
+Neben den klassischen Verfahren haben sich moderne \textbf{Hochgeschwindigkeitscodecs} wie \textbf{Snappy} oder \textbf{LZ4} etabliert. Diese Algorithmen priorisieren geringe Latenz und hohe Dekompressionsgeschwindigkeit gegenüber maximaler Kompressionsrate. Sie basieren häufig auf vereinfachten Lempel-Ziv-Varianten und sind für den Einsatz in speicher- und abfrageintensiven Systemen konzipiert. In Datenbanksystemen werden sie bevorzugt eingesetzt, wenn schnelle Anfrageverarbeitung wichtiger ist als eine maximale Reduktion des Speicherbedarfs. \cite{salomon}
 \subsubsection{Datenbankarchitekturen und ihre Anforderungen}
 \section{Fragen}
-Wie viele Seiten sollte die Arbeit nochmal insgesamt haben?
-
-Ich hab das Gefühl, dass mein Konzept Abschnitt (vor allem wegen der Grundlagen) sehr lang wird. Ist das ein Problem oder ist das ganz normal?
-
-Mein Plan wäre es dann am Ende des Konzept Abschnitts die gefundenen interessanten Paper der aktuellen Forschung vorzustellen und dann im Implementierungskapitel anhand der vorgestellten Grundlagen zu bewerten. Ist das ein möglicher Weg oder sollte ich lieber anders vorgehen? (Bin immer noch ein wenig verwirrt von der Namensgebung Implementierung im Falle einer Forschungsübersicht)
+Fachbegriffe immer hervorheben oder nur einmal?
 
 \begin{thebibliography}{1}
 \bibitem{Raichand}
