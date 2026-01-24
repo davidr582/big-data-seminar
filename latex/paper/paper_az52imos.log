@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.27)  18 JAN 2026 17:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.27)  20 JAN 2026 16:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -503,7 +503,82 @@ Underfull \hbox (badness 2027) in paragraph at lines 174--175
 \OT1/ptm/m/n/10 gen-satz zu klas-si-schen Lempel-Ziv-Verfahren er-folgt die
  []
 
-[4] [5
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 189--190
+[]\OT1/ptm/m/n/10 Der vor-ge-stell-te An-satz ver-wen-det ei-ne
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--190
+\OT1/ptm/m/n/10 W[]orterbuchkodierung, bei der h[]aufig auf-tre-ten-de
+ []
+
+
+Underfull \hbox (badness 7047) in paragraph at lines 189--190
+\OT1/ptm/m/n/10 Zei-chen-ket-ten oder Teil-strings durch kom-pak-te Co-des
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--190
+\OT1/ptm/m/n/10 Encoding-Verfahren wird das W[]orterbuch je-doch so
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 198--199
+[]\OT1/ptm/m/n/10 Der vor-ge-stell-te An-satz nutzt ei-ne mehr-stu-fi-ge
+ []
+
+
+Underfull \hbox (badness 6641) in paragraph at lines 198--199
+\OT1/ptm/m/n/10 Kom-pres-si-ons-pi-pe-li-ne, bei der ein-fa-che Ver-fah-ren wie
+
+ []
+
+
+Underfull \hbox (badness 2134) in paragraph at lines 198--199
+\OT1/ptm/m/n/10 kom-pri-mie-ren-den Tech-ni-ken kom-bi-niert wer-den. Ziel ist
+ []
+
+
+Underfull \hbox (badness 1845) in paragraph at lines 198--199
+\OT1/ptm/m/n/10 ty-pi-sche Ab-fra-ge-ope-ra-tio-nen []uberm[]a^^Yig zu erh[]ohe
+n. Die
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 216--217
+[]\OT1/ptm/m/n/10 Hinsichtlich des Mo-del-lie-rungs-an-sat-zes las-sen sich
+ []
+
+
+Underfull \hbox (badness 3547) in paragraph at lines 216--217
+\OT1/ptm/m/n/10 W[]orterbuchkodierung, wo-bei FSST prim[]ar auf schnel-le
+ []
+
+
+Underfull \hbox (badness 8075) in paragraph at lines 216--217
+\OT1/ptm/m/n/10 klas-si-sche Ver-fah-ren in-ner-halb ei-ner spal-te-n-ori-en-ti
+er-ten
+ []
+
+
+Underfull \hbox (badness 3815) in paragraph at lines 216--217
+\OT1/ptm/m/n/10 Pi-pe-li-ne und ver-folgt da-mit einen st[]arker ag-gre-gier-te
+n
+ []
+
+
+Underfull \hbox (badness 1715) in paragraph at lines 224--225
+[]\OT1/ptm/m/n/10 Besonders re-le-vant f[]ur Da-ten-bank-sys-te-me ist die Un-
+ []
+
+[6]
+Underfull \hbox (badness 1448) in paragraph at lines 254--255
+[]\OT1/ptm/m/n/8 C. Bin-nig, S. Hil-de-brand und F. F[]arber. ``Dictionary-base
+d order-
+ []
+
+[7
 
 ] (paper_az52imos.aux)
  ***********
@@ -512,10 +587,10 @@ L3 programming layer <2025-11-06>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 6138 strings out of 467870
- 109667 string characters out of 5418354
- 541444 words of memory out of 5000000
- 34933 multiletter control sequences out of 15000+600000
+ 6142 strings out of 467870
+ 109695 string characters out of 5418354
+ 541460 words of memory out of 5000000
+ 34937 multiletter control sequences out of 15000+600000
  663650 words of font info for 95 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
  59i,6n,67p,1030b,185s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -524,9 +599,9 @@ b><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.p
 fb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.p
 fb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on paper_az52imos.pdf (5 pages, 94390 bytes).
+Output written on paper_az52imos.pdf (7 pages, 111980 bytes).
 PDF statistics:
- 39 PDF objects out of 1000 (max. 8388607)
+ 47 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

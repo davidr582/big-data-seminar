@@ -168,7 +168,7 @@ Aus der so gewonnenen Menge an Publikationen wurden diejenigen Arbeiten ausgewä
 
 Der Vergleich der ausgewählten Arbeiten erfolgt entlang der im Konzeptteil eingeführten Dimensionen. Dazu zählen insbesondere der zugrunde liegende Modellierungsansatz, die erzielte Kompressionsrate, das Laufzeitverhalten bei Kompression und Dekompression, der Speichermehraufwand sowie die Unterstützung von direktem Zugriff und effizienter Anfrageverarbeitung. Die folgenden Unterabschnitte stellen die ausgewählten Arbeiten jeweils einzeln vor und ordnen sie anschließend vergleichend ein, um Gemeinsamkeiten, Unterschiede und bestehende Zielkonflikte herauszuarbeiten.
 
-\subsubsection{\textbf{FSST: Fast Random Access String Compression} }
+\subsubsection{\textbf{FSST: Fast Random Access String Compression}}
 Boncz et al. stellen mit \textbf{FSST (Fast Static Symbol Table)} \cite{fsst} ein verlustfreies Kompressionsverfahren für Zeichenketten vor, das speziell für den Einsatz in modernen In-Memory- und spaltenorientierten Datenbanksystemen konzipiert ist. Ziel des Ansatzes ist es, eine hohe Dekompressionsgeschwindigkeit mit Unterstützung von direktem Zugriff auf einzelne Zeichenketten zu kombinieren, ohne dabei aufwendige dynamische Wörterbuchstrukturen zu verwenden.
 
 Der Ansatz von FSST basiert auf einer statischen Wörterbuchkodierung, bei der häufig vorkommende Byte-Sequenzen durch kurze Codes ersetzt werden. Im Gegensatz zu klassischen Lempel-Ziv-Verfahren erfolgt die Wörterbucherstellung einmalig in einer Trainingsphase und bleibt während der eigentlichen Kompression unverändert. Dadurch wird ein deterministisches und sehr effizientes Dekodierverfahren ermöglicht, das sich besonders für datenbanknahe Workloads eignet.
@@ -177,8 +177,66 @@ Ein zentrales Merkmal von FSST ist die explizite Optimierung auf Random-Access-Z
 
 Die experimentelle Evaluation zeigt, dass FSST im Vergleich zu etablierten Verfahren wie Snappy oder LZ4 eine deutlich höhere Dekompressionsgeschwindigkeit erreicht, während die Kompressionsrate in einem ähnlichen Bereich liegt. Besonders in analytischen Szenarien mit stringlastigen Attributen bietet FSST damit einen günstigen Kompromiss zwischen Speicherreduktion und Laufzeitverhalten. Aufgrund dieser Eigenschaften eignet sich der Ansatz insbesondere für spaltenorientierte und In-Memory-Datenbanksysteme.
 
+Aufbauend auf dem FSST-Verfahren stellen die Autoren von GSST (GPU Static Symbol Table) \cite{gsst} eine architekturspezifische Erweiterung vor, die die Dekompression von FSST-kodierten Zeichenketten für den Einsatz auf GPUs optimiert. Der Ansatz verfolgt dabei nicht das Ziel, die zugrunde liegende Kompressionsmethode zu verändern, sondern konzentriert sich auf eine effiziente Parallelisierung der Dekompression unter Beibehaltung des FSST-Datenformats.
+
+GSST nutzt die statische Symboltabelle und die deterministische Dekodierbarkeit von FSST, um komprimierte Strings in unabhängige Teilbereiche zu zerlegen, die parallel verarbeitet werden können. Hierzu werden zusätzliche Metadaten eingeführt, welche eine koordinierte Dekompression durch viele Threads ermöglichen. Die vorgeschlagenen Anpassungen sind eng an die Eigenschaften von FSST gekoppelt und lassen sich nicht ohne Weiteres auf andere Kompressionsverfahren übertragen.
+
+Die Evaluation zeigt, dass GSST auf moderner GPU-Hardware eine sehr hohe Dekompressionsbandbreite erreicht und damit insbesondere für analytische Workloads mit stringlastigen Attributen geeignet ist. Gleichzeitig verdeutlicht der Ansatz, dass die Wahl eines geeigneten Kompressionsformats eine entscheidende Voraussetzung für architekturspezifische Optimierungen darstellt. GSST ist somit nicht als eigenständiges Kompressionsverfahren zu verstehen, sondern als spezialisierte Erweiterung von FSST, die dessen Einsatzbereich auf stark parallelisierte Hardwareplattformen ausdehnt.
+
+\subsubsection{\textbf{Dictionary-based Order-preserving String Compression for Main Memory Column Stores}}
+Binnig et al. \cite{binnig} stellen ein wörterbuchbasiertes Kompressionsverfahren vor, das speziell für den Einsatz in Datenbanksystemen entwickelt wurde, bei denen Ordnungseigenschaften von Zeichenketten erhalten bleiben müssen. Der zentrale Beitrag der Arbeit besteht darin, Kompression mit der Anforderung zu kombinieren, dass die lexikographische Ordnung der Originalstrings auch in der komprimierten Darstellung erhalten bleibt. Diese Eigenschaft ist insbesondere für Datenbanksysteme relevant, da viele Operationen wie Sortierungen, Bereichsanfragen oder Indexzugriffe auf der natürlichen Ordnung von Strings basieren.
+
+Der vorgestellte Ansatz verwendet eine Wörterbuchkodierung, bei der häufig auftretende Zeichenketten oder Teilstrings durch kompakte Codes ersetzt werden. Im Unterschied zu klassischen Dictionary-Encoding-Verfahren wird das Wörterbuch jedoch so konstruiert, dass die resultierenden Codes die ursprüngliche lexikographische Ordnung der Werte widerspiegeln. Dadurch können Vergleichsoperationen direkt auf den komprimierten Repräsentationen durchgeführt werden, ohne eine vorherige Dekompression der Daten zu erfordern.
+
+Ein wesentlicher Vorteil dieses Ansatzes liegt in der Unterstützung von direktem Zugriff und vergleichsbasierter Anfrageverarbeitung auf komprimierten Daten. Datenbankoperatoren wie Selektionen oder Sortierungen können effizient ausgeführt werden, da die Ordnungseigenschaften der Daten erhalten bleiben. Gleichzeitig bleibt der Speichermehraufwand für das Wörterbuch überschaubar, da es auf die im Datenbestand tatsächlich vorkommenden Strings beschränkt ist.
+
+Die experimentellen Ergebnisse zeigen, dass das vorgestellte Verfahren insbesondere für spaltenorientierte Datenbanksysteme geeignet ist, in denen Zeichenkettenattribute häufig sortiert oder gruppiert verarbeitet werden. Im Vergleich zu nicht ordnungserhaltenden Kompressionsverfahren werden zwar teilweise geringere Kompressionsraten erzielt, dieser Nachteil wird jedoch durch die Einsparung von Dekompressionskosten während der Anfrageverarbeitung kompensiert. Der Ansatz verdeutlicht damit einen wichtigen Zielkonflikt zwischen maximaler Datenreduktion und effizienter Ausführung datenbanktypischer Operationen.
+
+\subsubsection{\textbf{Fast \& Strong: The Case of Compressed String Dictionaries on Modern CPUs}}
+In diesem Paper \cite{lasch} untersuchen Lasch et al. den Zielkonflikt zwischen hoher Kompressionsrate und effizientem Laufzeitverhalten in spaltenorientierten Datenbanksystemen. Die Arbeit adressiert die Frage, inwieweit stärkere Kompressionsverfahren, die üblicherweise mit höherem Rechenaufwand verbunden sind, dennoch für analytische Datenbankworkloads geeignet sein können. Der Fokus liegt dabei auf der systematischen Kombination und Bewertung mehrerer Kompressionstechniken innerhalb eines spaltenorientierten Speicherlayouts.
+
+Der vorgestellte Ansatz nutzt eine mehrstufige Kompressionspipeline, bei der einfache Verfahren wie Wörterbuchkodierung oder Lauflängenkodierung mit stärker komprimierenden Techniken kombiniert werden. Ziel ist es, die Redundanzen innerhalb einzelner Spalten möglichst effektiv auszunutzen, ohne die Dekompressionskosten für typische Abfrageoperationen übermäßig zu erhöhen. Die Autoren zeigen, dass sich durch eine geeignete Auswahl und Kombination der Verfahren sowohl hohe Kompressionsraten als auch akzeptable Zugriffslatenzen erzielen lassen.
+
+Ein zentrales Ergebnis der Arbeit ist die Beobachtung, dass stärker komprimierte Daten nicht zwangsläufig zu schlechterer Abfrageperformance führen. Insbesondere bei I/O-lastigen analytischen Workloads kann die reduzierte Datenmenge die zusätzlichen Dekompressionskosten kompensieren oder sogar überwiegen. Damit widerspricht die Arbeit der verbreiteten Annahme, dass schnelle, aber schwach komprimierende Verfahren grundsätzlich vorzuziehen sind.
+
+Die Evaluation erfolgt anhand typischer analytischer Abfragen auf spaltenorientierten Datenbeständen und verdeutlicht, dass die optimale Wahl eines Kompressionsverfahrens stark vom jeweiligen Workload abhängt. Die Ergebnisse unterstreichen die Bedeutung einer architektur- und workloadabhängigen Auswahl von Kompressionsstrategien und liefern wichtige Erkenntnisse für das Design moderner analytischer Datenbanksysteme.
+
+\subsubsection{\textbf{AlphaZip: Neural Network-Enhanced Lossless Text Compression}}
+Mit ALPHAZIP \cite{alpha} präsentieren die Autoren einen Ansatz zur verlustfreien Textkompression, der neuronale Netze zur Modellierung der Eingabedaten nutzt. Im Gegensatz zu klassischen statistischen oder wörterbuchbasierten Verfahren zielt die Arbeit darauf ab, komplexe Abhängigkeiten und Muster in Textdaten durch lernbasierte Modelle zu erfassen, um eine genauere Vorhersage der nächsten Symbole zu ermöglichen. Der Ansatz ordnet sich damit in die wachsende Forschung zu maschinellem Lernen für Datenkompression ein.
+
+ALPHAZIP kombiniert ein neuronales Sprachmodell mit einem nachgelagerten Entropiekodierungsverfahren. Das neuronale Netz wird darauf trainiert, Wahrscheinlichkeitsverteilungen für die nächsten Zeichen vorherzusagen, die anschließend für eine effiziente Kodierung genutzt werden. Durch die Verwendung tiefer neuronaler Netze können auch langfristige Abhängigkeiten in Texten berücksichtigt werden, was potenziell zu höheren Kompressionsraten führt als bei klassischen Modellen mit begrenztem Kontext.
+
+Die experimentellen Ergebnisse zeigen, dass ALPHAZIP bei allgemeinen Textkorpora teilweise bessere Kompressionsraten erzielt als etablierte verlustfreie Verfahren. Gleichzeitig wird jedoch deutlich, dass dieser Gewinn mit erheblichem Rechenaufwand verbunden ist. Insbesondere das Training und die Inferenz der neuronalen Modelle erfordern deutlich mehr Rechenzeit und Speicherressourcen als klassische Kompressionsalgorithmen. Zudem ist der Ansatz nicht auf direkten Zugriff oder partielle Dekompression einzelner Strings ausgelegt, da die Dekodierung sequenziell erfolgt.
+
+Im Kontext von Datenbanksystemen ergeben sich daraus deutliche Einschränkungen. Zwar demonstriert ALPHAZIP das Potenzial lernbasierter Modelle für die Textkompression, die fehlende Unterstützung von direktem Zugriff sowie die hohen Laufzeit- und Ressourcenanforderungen machen den Ansatz für datenbanknahe Anwendungen derzeit nur eingeschränkt geeignet. Die Arbeit ist daher weniger als praktikable Lösung für Datenbanksysteme zu verstehen, sondern vielmehr als explorativer Beitrag, der zeigt, wie maschinelles Lernen zur weiteren Verbesserung von Kompressionsraten eingesetzt werden kann.
+
+\subsubsection{\textbf{Vergleich und Einordnung der Ansätze}}
+Die im vorherigen Abschnitt vorgestellten Arbeiten verfolgen unterschiedliche Zielsetzungen und adressieren verschiedene Anforderungen an Textkompression im Datenbankkontext. Ein systematischer Vergleich ist daher nur entlang klar definierter Kriterien sinnvoll. Im Folgenden werden die Ansätze anhand des zugrunde liegenden Modellierungsansatzes, der erzielten Kompressionswirkung, des Laufzeitverhaltens, des Speichermehraufwands sowie ihrer Eignung für datenbanktypische Zugriffsmuster eingeordnet.
+
+Hinsichtlich des Modellierungsansatzes lassen sich zwei Hauptgruppen unterscheiden. FSST sowie der order-preserving Ansatz von Binnig et al. basieren auf statischer Wörterbuchkodierung, wobei FSST primär auf schnelle Dekompression und direkten Zugriff optimiert ist, während der Ansatz von Binnig et al. zusätzlich Ordnungseigenschaften erhält. Die Arbeit von Lasch et al. kombiniert mehrere klassische Verfahren innerhalb einer spaltenorientierten Pipeline und verfolgt damit einen stärker aggregierten Ansatz zur Reduktion von Redundanz. ALPHAZIP hingegen unterscheidet sich grundlegend von allen anderen Arbeiten, da ein neuronales Modell zur probabilistischen Vorhersage von Symbolen eingesetzt wird.
+
+Im Hinblick auf die Kompressionsrate zeigt sich, dass stärkere, teilweise mehrstufige Verfahren tendenziell bessere Ergebnisse erzielen. Insbesondere die in \textit{Fast \& Strong} untersuchten Kombinationen erreichen hohe Datenreduktionen, profitieren jedoch von analytischen Workloads mit hohem I/O-Anteil. FSST und der order-preserving Ansatz erzielen im Vergleich dazu moderatere Kompressionsraten, die jedoch bewusst zugunsten anderer Eigenschaften in Kauf genommen werden. ALPHAZIP erreicht auf allgemeinen Textkorpora teilweise sehr gute Kompressionsraten, ist jedoch stark von Trainingsdaten und Modellkomplexität abhängig.
+
+Das Laufzeitverhalten stellt einen zentralen Unterscheidungsfaktor dar. FSST ist explizit auf extrem schnelle Dekompression ausgelegt und eignet sich daher besonders für datenbanknahe Abfrageverarbeitung. Die GPU-basierte Erweiterung GSST verstärkt diese Eigenschaft weiter, indem sie FSST für massiv parallele Hardware optimiert. Der order-preserving Ansatz ermöglicht zwar zusätzliche Einsparungen bei Vergleichsoperationen, verursacht jedoch einen höheren Aufwand bei der Kodierung. Die in Fast and Strong Compression betrachteten Verfahren zeigen, dass höhere Dekompressionskosten in bestimmten Szenarien durch reduzierte I/O-Kosten kompensiert werden können. ALPHAZIP weist im Vergleich dazu deutlich höhere Rechenkosten auf und ist nicht für latenzkritische Anwendungen ausgelegt.
+
+Ein weiterer wesentlicher Aspekt ist der Speichermehraufwand. Wörterbuchbasierte Verfahren wie FSST und der Ansatz von Binnig et al. benötigen zusätzliche Strukturen, deren Größe jedoch begrenzt und kontrollierbar ist. Mehrstufige Kompressionspipelines erhöhen den Speicherbedarf durch mehrere Hilfsstrukturen, was insbesondere bei großen Spalten relevant wird. ALPHAZIP erfordert neben den komprimierten Daten auch die Speicherung neuronaler Modelle, was den Speichermehraufwand deutlich erhöht und den Einsatz in ressourcenbeschränkten Systemen erschwert.
+
+Besonders relevant für Datenbanksysteme ist die Unterstützung von direktem Zugriff und effizienter Anfrageverarbeitung. FSST und dessen Erweiterung GSST ermöglichen den unabhängigen Zugriff auf einzelne Zeichenketten und sind damit gut in bestehende Datenbankoperatoren integrierbar. Der order-preserving Ansatz bietet darüber hinaus den Vorteil, dass Vergleichs- und Sortieroperationen direkt auf komprimierten Daten durchgeführt werden können. Die Verfahren aus \textit{Fast \& Strong} sind primär auf spaltenweise Verarbeitung ausgelegt und eignen sich vor allem für analytische Abfragen. ALPHAZIP hingegen erfordert eine sequentielle Dekompression und ist daher für typische datenbanknahe Zugriffsmuster nur eingeschränkt geeignet.
+
+Zusammenfassend zeigt der Vergleich, dass es kein universell optimales Kompressionsverfahren für alle Datenbankszenarien gibt. Vielmehr stellt die Wahl eines geeigneten Ansatzes einen Kompromiss zwischen Kompressionsrate, Laufzeitverhalten und Zugriffseigenschaften dar. Während FSST und verwandte Erweiterungen besonders für latenzkritische, stringlastige Workloads geeignet sind, adressieren stärkere Kompressionsverfahren vor allem speicher- und I/O-intensive analytische Szenarien. Lernbasierte Ansätze wie ALPHAZIP verdeutlichen das theoretische Potenzial moderner Modelle, zeigen jedoch zugleich die aktuellen Grenzen ihres praktischen Einsatzes im Datenbankkontext auf.
+
+\subsection{Evaluation}
+
+\section{Schluss}
+
 \section{Fragen}
 Fachbegriffe immer hervorheben oder nur einmal?
+Wo citations?
+Reichen 4 Paper + Optimierungspaper?
+subsubsections fett?
+Abkürzungen für Paper einführen?
+Wenn verwendet kursiv oder fett?
+Bilder verwenden?
 \section{TODOs}
 Seitenzahlen bei büchern
 
@@ -186,12 +244,29 @@ Seitenzahlen bei büchern
 \bibitem{Raichand}
 P. Raichand und R. Aggarwal. ``A SHORT SURVEY OF DATA COMPRESSION TECHNIQUES FOR
 COLUMN ORIENTED DATABASES'' in  \textit{Journal of Global Research in Computer Science, vol. 4, no. 7, pp. 43-46, 2013.}
+
 \bibitem{salomon}
 D. Salomon. ``Data Compression – The Complete Reference'', \textit{3rd ed., Springer, 2004.}
+
 \bibitem{kaufmann}
 M. Kaufmann und A. Meier. ``SQL- \& NoSQL-Datenbanken'', \textit{9th ed., Springer, 2023.}
+
 \bibitem{fsst}
 P. Boncz, T. Neumann und V. Leis. ``FSST: Fast random access string compression'', \textit{Proceedings of the VLDB Endowment 13, pp. 2649–2661, 2020.}
+
+\bibitem{binnig}
+C. Binnig, S. Hildebrand und F. Färber. ``Dictionary-based order-preserving string compression for main memory column stores'', \textit{Proceedings of the 2009 ACM SIGMOD International Conference on Management of Data, pp. 283-296, 2009}
+
+\bibitem{lasch}
+R. Lasch, I. Oukid, R. Dementievand, N. May, S. Demirsoy und K. Sattler. ``Fast \& Strong: The Case of Compressed String Dictionaries on Modern CPUs'', \textit{Proceedings of the 15th International Workshop on Data Management on New Hardware, 2019}
+
+\bibitem{alpha}
+S. Narashiman und N. Chandrachoodan. ``AlphaZip: Neural Network-Enhanced Lossless Text Compression'', \textit{arXiv, 2024}
+
+\bibitem{gsst}
+R. Vonk, J. Hoozemans und Z. Al-Ars. ``GSST: Parallel string decompression at 191 GB/s on GPU'', \textit{Proceedings of the 5th Workshop on Challenges and Opportunities of Efficient and Performant Storage Systems, pp. 8 - 14, 2025}
+
+
 \end{thebibliography}
 
 \end{document}
