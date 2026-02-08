@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.27)  25 JAN 2026 22:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.27)  8 FEB 2026 20:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -262,14 +262,42 @@ ference \hbox to\hsize {\normalfont \footnotesize \hfil \box \@tempboxa \hfil }
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/base\textcomp.sty
 Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 )
+(C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen192
+\lightrulewidth=\dimen193
+\cmidrulewidth=\dimen194
+\belowrulesep=\dimen195
+\belowbottomsep=\dimen196
+\aboverulesep=\dimen197
+\abovetopsep=\dimen198
+\cmidrulesep=\dimen199
+\cmidrulekern=\dimen256
+\defaultaddspace=\dimen257
+\@cmidla=\count313
+\@cmidlb=\count314
+\@aboverulesep=\dimen258
+\@belowrulesep=\dimen259
+\@thisruleclass=\count315
+\@lastruleclass=\count316
+\@thisrulewidth=\dimen260
+)
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
+(C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count317
+\float@exts=\toks25
+\float@box=\box59
+\@float@everytoks=\toks26
+\@floatcapt=\box60
+)
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbatim.sty
 Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks25
-\verbatim@line=\toks26
+\every@verbatim=\toks27
+\verbatim@line=\toks28
 \verbatim@in@stream=\read2
 )
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
@@ -290,12 +318,12 @@ Package graphics Info: Driver file: pdftex.def on input line 106.
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
 File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen192
-\Gin@req@width=\dimen193
+\Gin@req@height=\dimen261
+\Gin@req@width=\dimen262
 )
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/preprint\balance.sty
 Package: balance 1999/02/23 4.3 (PWD)
-\oldvsize=\dimen194
+\oldvsize=\dimen263
 )
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/generic/oberdiek\iflang.sty
 Package: iflang 2018/01/21 v1.7 Checks for the current language (HO)
@@ -321,7 +349,7 @@ Package iflang Info: Naming convention for patterns: babel.
 ) (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
 Package: babel 2025/11/09 v25.15 The multilingual framework for LuaLaTeX, pdfLa
 TeX and XeLaTeX
-\babel@savecnt=\count313
+\babel@savecnt=\count318
 LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input li
 ne 2050.
 LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input li
@@ -336,12 +364,12 @@ LaTeX Encoding Info:    Ignoring declaration for text command \IJ (encoding ?)
 on input line 2058.
 LaTeX Encoding Info:    Ignoring declaration for text command \SS (encoding ?) 
 on input line 2083.
-\U@D=\dimen195
+\U@D=\dimen264
 \l@unhyphenated=\language79
 
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def)
 \bbl@readstream=\read3
-\bbl@dirlevel=\count314
+\bbl@dirlevel=\count319
 Package babel Info: Configuration files are deprecated, as
 (babel)             they can break document portability.
 (babel)             Reported on input line 4175.
@@ -369,32 +397,32 @@ Language: ngermanb 2024/12/10 v2.15 German support for babel (post-1996 orthogr
 aphy)
 Package babel Info: Making " an active character on input line 122.
 )))
-\c@LastYear=\count315
+\c@LastYear=\count320
 
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count316
+\l__color_backend_stack_int=\count321
 ) (paper_az52imos.aux
 Package babel Info: 'ngerman' activates 'ngerman' shorthands.
 (babel)             Reported on input line 6.
 )
 \openout1 = `paper_az52imos.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
 
 -- Lines per column: 58 (exact).
 Package caption Info: Begin \AtBeginDocument code.
@@ -404,17 +432,17 @@ Package caption Info: End \AtBeginDocument code.
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count317
-\scratchdimen=\dimen196
-\scratchbox=\box59
-\nofMPsegments=\count318
-\nofMParguments=\count319
-\everyMPshowfont=\toks27
-\MPscratchCnt=\count320
-\MPscratchDim=\dimen197
-\MPnumerator=\count321
-\makeMPintoPDFobject=\count322
-\everyMPtoPDFconversion=\toks28
+\scratchcounter=\count322
+\scratchdimen=\dimen265
+\scratchbox=\box61
+\nofMPsegments=\count323
+\nofMParguments=\count324
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count325
+\MPscratchDim=\dimen266
+\MPnumerator=\count326
+\makeMPintoPDFobject=\count327
+\everyMPtoPDFconversion=\toks30
 )
 (C:\Users\David\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -444,9 +472,8 @@ G,.JBIG2,.JB2,.eps]
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Underfull \hbox (badness 2409) in paragraph at lines 89--90
-\OT1/ptm/b/n/10 Laufl[]angenkodierung\OT1/ptm/m/n/10 , \OT1/ptm/b/n/10 Null-un-
-ter-dr[]uckung \OT1/ptm/m/n/10 und \OT1/ptm/b/n/10 Lempel-
+Underfull \hbox (badness 1715) in paragraph at lines 91--92
+\OT1/ptm/m/n/10 Laufl[]angenkodierung, Null-un-ter-dr[]uckung und Lempel-Ziv-
  []
 
 [1{C:/Users/David/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Da
@@ -454,152 +481,234 @@ vid/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-Underfull \hbox (badness 5681) in paragraph at lines 97--98
- \OT1/ptm/m/it/10 1) \OT1/ptm/b/it/10 Ver-lust-freie und ver-lust-be-haf-te-te 
-Kom-pres-si-on\OT1/ptm/m/it/10 : [][]
+Underfull \hbox (badness 1939) in paragraph at lines 95--96
+\OT1/ptm/m/n/10 pres-si-ons-ver-fah-ren f[]ur In-Memory-Datenbanksysteme. Der
  []
 
 
-Underfull \hbox (badness 1721) in paragraph at lines 97--98
+Underfull \hbox (badness 10000) in paragraph at lines 101--102
+ \OT1/ptm/m/it/10 1) Ver-lust-freie und ver-lust-be-haf-te-te Kom-pres-si-on: [
+][]
+ []
+
+
+Underfull \hbox (badness 1721) in paragraph at lines 101--102
 \OT1/ptm/m/n/10 Da-ten-kom-pres-si-on be-zeich-net Ver-fah-ren zur Ver-rin-ge-r
 ung
  []
 
+
+Underfull \hbox (badness 1762) in paragraph at lines 110--111
+ \OT1/ptm/m/it/10 2) Prin-zi-pi-en der In-for-ma-ti-ons-re-duk-ti-on: [][] \OT1
+/ptm/m/n/10 Drei zen-tra-le
+ []
+
 [2]
-Underfull \hbox (badness 2735) in paragraph at lines 131--132
+Underfull \hbox (badness 1924) in paragraph at lines 129--130
+[]\OT1/ptm/m/n/10 Ein zen-tra-les Ma^^Y ist die Kom-pres-si-ons-ra-te, die das
+ []
+
+
+Underfull \hbox (badness 2735) in paragraph at lines 133--134
 []\OT1/ptm/m/n/10 Ein wei-te-res wich-ti-ges Kri-te-ri-um ist der \OT1/ptm/b/n/
 10 zus[]atzliche
  []
 
 
-Underfull \hbox (badness 1902) in paragraph at lines 135--136
+Underfull \hbox (badness 1902) in paragraph at lines 137--138
 []\OT1/ptm/m/n/10 Insgesamt zeigt sich, dass die Be-wer-tung von Kom-
  []
 
-
-Underfull \hbox (badness 2343) in paragraph at lines 145--146
-\OT1/ptm/m/n/10 Da-ten-bank-sys-te-men ein-ge-setzt, da dort oft vie-le iden-ti
--
+[3]
+Underfull \hbox (badness 1997) in paragraph at lines 158--159
+[]\OT1/ptm/m/n/10 NoSQL-Datenbanken ver-fol-gen al-ter-na-ti-ve Da-ten-mo-del-
  []
 
-[3]
-Underfull \hbox (badness 2671) in paragraph at lines 155--156
+
+Underfull \hbox (badness 2671) in paragraph at lines 158--159
 \OT1/ptm/m/n/10 le, um Ska-lier-bar-keit, Verf[]ugbarkeit und Fle-xi-bi-lit[]at
  zu
  []
 
 [4]
-Underfull \hbox (badness 4846) in paragraph at lines 176--177
+Underfull \hbox (badness 4846) in paragraph at lines 179--180
 []\OT1/ptm/m/n/10 Der An-satz von FSST ba-siert auf ei-ner sta-ti-schen
  []
 
-
-Underfull \hbox (badness 2343) in paragraph at lines 176--177
-\OT1/ptm/m/n/10 Sequenzen durch kur-ze Co-des er-setzt wer-den. Im Ge-
- []
-
-
-Underfull \hbox (badness 2027) in paragraph at lines 176--177
-\OT1/ptm/m/n/10 gen-satz zu klas-si-schen Lempel-Ziv-Verfahren er-folgt die
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 191--192
-[]\OT1/ptm/m/n/10 Der vor-ge-stell-te An-satz ver-wen-det ei-ne
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 191--192
-\OT1/ptm/m/n/10 W[]orterbuchkodierung, bei der h[]aufig auf-tre-ten-de
- []
-
-
-Underfull \hbox (badness 7047) in paragraph at lines 191--192
-\OT1/ptm/m/n/10 Zei-chen-ket-ten oder Teil-strings durch kom-pak-te Co-des
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 191--192
-\OT1/ptm/m/n/10 Encoding-Verfahren wird das W[]orterbuch je-doch so
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 200--201
+<figures/fsst.pdf, id=18, 359.51413pt x 176.08987pt>
+File: figures/fsst.pdf Graphic file (type pdf)
+<use figures/fsst.pdf>
+Package pdftex.def Info: figures/fsst.pdf  used on input line 183.
+(pdftex.def)             Requested size: 252.0pt x 123.43402pt.
+[5 <./figures/fsst.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
 []\OT1/ptm/m/n/10 Der vor-ge-stell-te An-satz nutzt ei-ne mehr-stu-fi-ge
  []
 
 
-Underfull \hbox (badness 6641) in paragraph at lines 200--201
+Underfull \hbox (badness 6641) in paragraph at lines 201--202
 \OT1/ptm/m/n/10 Kom-pres-si-ons-pi-pe-li-ne, bei der ein-fa-che Ver-fah-ren wie
 
  []
 
 
-Underfull \hbox (badness 2134) in paragraph at lines 200--201
-\OT1/ptm/m/n/10 kom-pri-mie-ren-den Tech-ni-ken kom-bi-niert wer-den. Ziel ist
+Underfull \hbox (badness 2035) in paragraph at lines 201--202
+\OT1/ptm/m/n/10 Spal-ten m[]oglichst ef-fek-tiv aus-ge-nutzt wer-den, oh-ne die
+
  []
 
 
-Underfull \hbox (badness 1845) in paragraph at lines 200--201
-\OT1/ptm/m/n/10 ty-pi-sche Ab-fra-ge-ope-ra-tio-nen []uberm[]a^^Yig zu erh[]ohe
-n. Die
- []
-
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 218--219
-[]\OT1/ptm/m/n/10 Hinsichtlich des Mo-del-lie-rungs-an-sat-zes las-sen sich
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+\OT1/ptm/m/n/10 De-kom-pres-si-ons-kos-ten f[]ur ty-pi-sche Ab-fra-ge-ope-ra-ti
+o-nen
  []
 
 
-Underfull \hbox (badness 3547) in paragraph at lines 218--219
-\OT1/ptm/m/n/10 W[]orterbuchkodierung, wo-bei FSST prim[]ar auf schnel-le
+Underfull \hbox (badness 2680) in paragraph at lines 201--202
+[]\OT1/ptm/m/n/10 uberm[]a^^Yig zu erh[]ohen. Die Au-to-ren zei-gen, dass sich
  []
 
 
-Underfull \hbox (badness 8075) in paragraph at lines 218--219
-\OT1/ptm/m/n/10 klas-si-sche Ver-fah-ren in-ner-halb ei-ner spal-te-n-ori-en-ti
-er-ten
+Underfull \hbox (badness 7273) in paragraph at lines 201--202
+\OT1/ptm/m/n/10 durch ei-ne ge-eig-ne-te Aus-wahl und Kom-bi-na-ti-on der
  []
 
 
-Underfull \hbox (badness 3815) in paragraph at lines 218--219
-\OT1/ptm/m/n/10 Pi-pe-li-ne und ver-folgt da-mit einen st[]arker ag-gre-gier-te
-n
- []
-
-[6]
-Underfull \hbox (badness 1715) in paragraph at lines 226--227
-[]\OT1/ptm/m/n/10 Besonders re-le-vant f[]ur Da-ten-bank-sys-te-me ist die Un-
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+\OT1/ptm/m/n/10 Ver-fah-ren so-wohl ho-he Kom-pres-si-ons-ra-ten als auch
  []
 
 
-Underfull \hbox (badness 1448) in paragraph at lines 262--263
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+\OT1/ptm/m/n/10 ak-zep-ta-ble Zu-griffs-la-ten-zen er-zie-len las-sen. Zus[]atz
+lich
+ []
+
+
+Underfull \hbox (badness 2119) in paragraph at lines 201--202
+\OT1/ptm/m/n/10 nut-zen die Au-to-ren vek-to-ri-sier-te De-kom-pres-si-ons-rou-
+ti-nen
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+\OT1/ptm/m/n/10 un-ter Ver-wen-dung mo-der-ner SIMD-Instruktionen (z.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+\OT1/ptm/m/n/10 B. AVX-basierter Er-wei-te-run-gen), um den erh[]ohten
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+\OT1/ptm/m/n/10 Re-chen-auf-wand st[]arker kom-pri-mie-ren-der Ver-fah-ren zu
+ []
+
+<figures/fast_mt_pfeilen.png, id=35, 942.52126pt x 760.34062pt>
+File: figures/fast_mt_pfeilen.png Graphic file (type png)
+<use figures/fast_mt_pfeilen.png>
+Package pdftex.def Info: figures/fast_mt_pfeilen.png  used on input line 207.
+(pdftex.def)             Requested size: 252.0pt x 203.28758pt.
+[6 <./figures/fast_mt_pfeilen.png>]
+Underfull \hbox (badness 1466) in paragraph at lines 219--220
+[]\OT1/ptm/m/n/10 Konzeptionell nutzt On-Pair ei-ne BPE-[]ahnliche Mo-del-
+ []
+
+
+Underfull \hbox (badness 3428) in paragraph at lines 219--220
+\OT1/ptm/m/n/10 lie-rung, bei der h[]aufig ge-mein-sam auf-tre-ten-de Teil-zei-
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 228--229
+[]\OT1/ptm/m/n/10 Der vor-ge-stell-te An-satz ver-wen-det ei-ne
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 228--229
+\OT1/ptm/m/n/10 W[]orterbuchkodierung, bei der h[]aufig auf-tre-ten-de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 228--229
+\OT1/ptm/m/n/10 Zei-chen-ket-ten oder Teil-zei-chen-ket-ten durch kom-pak-te
+ []
+
+
+Underfull \hbox (badness 5175) in paragraph at lines 228--229
+\OT1/ptm/m/n/10 Co-des er-setzt wer-den. Im Un-ter-schied zu klas-si-schen
+ []
+
+[7] [8]
+Underfull \hbox (badness 10000) in paragraph at lines 278--279
+[]\OT1/ptm/m/n/10 Durch die struk-tu-rier-te Ein-ord-nung aus-gew[]ahlter
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 278--279
+\OT1/ptm/m/n/10 For-schungs-ar-bei-ten konn-te her-aus-ge-ar-bei-tet wer-den,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 278--279
+\OT1/ptm/m/n/10 dass sich Kom-pres-si-ons-ver-fah-ren nicht un-abh[]angig
+ []
+
+
+Underfull \hbox (badness 2970) in paragraph at lines 278--279
+\OT1/ptm/m/n/10 von ih-rem Ein-satz-sze-na-rio be-wer-ten las-sen. Statt ei-nes
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 278--279
+\OT1/ptm/m/n/10 spe-zia-li-sier-ter Ver-fah-ren, die je-weils f[]ur be-stimm-te
+
+ []
+
+
+Underfull \hbox (badness 6380) in paragraph at lines 278--279
+\OT1/ptm/m/n/10 Da-ten-bank-ty-pen und An-fra-ge-auf-kom-men ge-eig-net sind.
+ []
+
+
+Underfull \hbox (badness 4634) in paragraph at lines 278--279
+\OT1/ptm/m/n/10 Die-se Er-kennt-nis un-ter-streicht die Not-wen-dig-keit ei-ner
+
+ []
+
+
+Underfull \hbox (badness 1448) in paragraph at lines 299--300
 []\OT1/ptm/m/n/8 C. Bin-nig, S. Hil-de-brand und F. F[]arber. ``Dictionary-base
 d order-
  []
 
-[7] (paper_az52imos.aux)
+[9] (paper_az52imos.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 6147 strings out of 467870
- 109715 string characters out of 5418354
- 541621 words of memory out of 5000000
- 34942 multiletter control sequences out of 15000+600000
- 663650 words of font info for 95 fonts, out of 8000000 for 9000
+ 6320 strings out of 467870
+ 112803 string characters out of 5418354
+ 543999 words of memory out of 5000000
+ 35108 multiletter control sequences out of 15000+600000
+ 662554 words of font info for 94 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 59i,6n,67p,1188b,185s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pf
-b><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.p
-fb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.p
-fb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.
-pfb>
-Output written on paper_az52imos.pdf (7 pages, 114086 bytes).
+ 59i,6n,67p,1466b,247s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/inconsolata/
+Inconsolata-zi4b.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/inconsolata/Inconsolata-zi4r.pfb><C:/Users/David/AppData/Local/Programs/
+MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/David/AppData/Local/Programs/
+MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/David/AppData/Local/Programs
+/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/David/AppData/Local/Programs
+/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on paper_az52imos.pdf (9 pages, 256726 bytes).
 PDF statistics:
- 47 PDF objects out of 1000 (max. 8388607)
+ 72 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
