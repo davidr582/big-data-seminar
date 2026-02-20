@@ -34,6 +34,7 @@
 % - isomath is used for upGreek letters
 % ----------------------------------------------------------------------------------------
 \usepackage{isomath}
+\usepackage{booktabs}
 \usefonttheme[onlymath]{serif}
 \usepackage{exscale}
 \usepackage{anyfontsize}
@@ -46,18 +47,13 @@
 % ========================================================================================
 % Setup for Titlepage
 % ----------------------------------------------------------------------------------------
-\title[fau-beamer]{The NEW fau-beamer Template}
-\subtitle{The \LaTeX{} template according to the 2021 FAU corporate guide}
-\author[T. Roith]{
-Tim Roith\inst{1}\and%
-Second Author\inst{2}\and%
-Third Author\inst{3}%
+\title[Textkompressionsalgorithmen in Datenbanken - Eine Forschungsfeldübersicht]{Textkompressionsalgorithmen in Datenbanken - Eine Forschungsfeldübersicht}
+\subtitle{Big Data Seminar}
+\author[D. Roppelt]{
 }
 %
 \institute[FAU]{%
-\inst{1} Friedrich-Alexander Universität Erlangen-Nürnberg, Department Mathematik \and%
-\inst{2} Second Insitute \and%
-\inst{3} Third Insitute \and%
+David Roppelt, Mail: david.roppelt@fau.de \and%
 }
 
 % Instead of \institute you can also use the \thanks command
@@ -68,7 +64,7 @@ Third Author\inst{3}%
 %Third Author\thanks{Third Insitute}%
 %}
 
-\date{\today}
+\date{February 23, 2026}
 
 
 % ================================================
@@ -144,28 +140,254 @@ Third Author\inst{3}%
 \titlepage%
 \end{frame}
 
-% Introduction
-\begin{frame}[t]{Introduction}{What is this?}
-This file demonstrates the fau-beamer style, which is a style for the \LaTeX{} \texttt{beamer} class, which allows to create presentation slides in \LaTeX. The design is based on the FAU corporate \href{https://www.intern.fau.de/kommunikation-marketing-und-corporate-identity/corporate-identity/}{ style guide 2021}.
-
-This code for this template was written by \href{https://timroith.github.io/}{Tim Roith}. If you have questions about the template or found a mistake you can send an email to tim\{dot\}roith\{at\}fau\{dot\}de or open a issue at the \href{https://github.com/FAU-AMMN/fau-beamer}{GitHub repository}.
-\end{frame}
-
-
-
 % Stylized outline
 \begin{frame}[title]{-}
-\tableofcontents
+	\setcounter{tocdepth}{1}
+	\tableofcontents
 \end{frame}
 
-\begin{frame}[t,title]{-}
-A frame using the \texttt{title option}
+
+\setcounter{tocdepth}{2}
+
+\AtBeginSection[]{
+	\begin{frame}[title]{Kapitelübersicht}
+		\tableofcontents[
+		sections={\thesection},
+		subsectionstyle=show/show/hide
+		]
+	\end{frame}
+}
+
+\section{Einleitung}
+\subsection{Motivation}
+% Introduction
+\begin{frame}[t]{Motivation}{Warum wird Datenkompression immer wichtiger?}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.74\linewidth]{statista2}
+		\caption{Volumen der jährlich generierten/replizierten digitalen Datenmenge weltweit von 2010 bis 2024 und Prognose für 2029 \cite{statista_datenvolumen_weltweit}}
+		\label{fig:statista}
+	\end{figure}
+	\footnotetext{\cite{statista_datenvolumen_weltweit} \url{https://de.statista.com/statistik/daten/studie/267974/umfrage/prognose-zum-weltweit-generierten-datenvolumen/}}
+\end{frame}
+\subsection{Problemstellung}
+% ..............................................................................
+\begin{frame}[t]{Problemstellung}{Herausforderungen von Kompression im Datenbankkontext}
+	\begin{itemize}
+		\item Stark wachsendes Datenvolumen in modernen Anwendungen
+		\vspace{0.5cm}
+		\item Großer Anteil textueller Daten (Logs, JSON, Dokumente, Webdaten)
+		\vspace{0.5cm}
+		\item Kompression reduziert Speicherbedarf und I/O-Kosten
+		\vspace{0.5cm}
+		\item Klassische Kompression nicht für Datenbankabfragen optimiert
+	\end{itemize}
+	
+	\vspace{1cm}
+	
+	\textbf{Zentrale Herausforderung}
+	\vspace{0.5cm}
+	\begin{itemize}
+		\item Hohe Kompressionsrate $\rightarrow$ langsamer Zugriff
+		\vspace{0.5cm}
+		\item Schneller Zugriff $\rightarrow$ geringere Kompressionsrate
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Ziel der Arbeit}{Welche Ziele verfolgt meine Arbeit?}
+	\begin{itemize}
+		\item Keine Entwicklung eines neuen Kompressionsverfahrens
+		\vspace{0.5cm}
+		\item Strukturierter Überblick über bestehende Textkompressionsverfahren
+		\vspace{0.5cm}
+		\item Vergleich anhand einheitlicher Bewertungskriterien
+		\vspace{0.5cm}
+		\item Einordnung im Kontext verschiedener Datenbankarchitekturen
+	\end{itemize}
+	
+	\vspace{1cm}
+	
+	\textbf{Forschungsfragen:}
+	
+	\vspace{0.2cm}
+	
+	\begin{quote}
+		Welches Textkompressionsverfahren ist für welchen Datenbanktyp und welches Anfrageaufkommen geeignet?
+	\end{quote}
+	\vspace{0.5cm}
+	\begin{quote}
+		Welche besonderen Eigenschaften besitzen die verschiedenen Verfahren?
+	\end{quote}
+	\vspace{0.5cm}
+	\begin{quote}
+		Gibt es ein allgemein bestes Verfahren?
+	\end{quote}
+\end{frame}
+
+\subsection{Ziel der Arbeit}
+
+\section{Grundlagen}
+
+\subsection{Verlustfreie vs. verlustbehaftete Kompression}
+\begin{frame}{Verlustfreie vs. verlustbehaftete Kompression}
+		
+	\begin{columns}[T]
+		
+		% ---- Links ----
+		\column{0.48\textwidth}
+		\begin{block}{Verlustfreie Kompression}
+			\begin{itemize}
+				\item Exakte Rekonstruktion der Originaldaten
+				\vspace{0.5cm}
+				\item Kein Informationsverlust
+				\vspace{0.5cm}
+				\item Geringere Kompressionsrate
+				\vspace{0.5cm}
+				\item Direkter Einsatz in Datenbanken
+				\vspace{0.5cm}
+				\item Wichtig für Korrektheit der Daten
+				\vspace{0.5cm}
+				\item Beispiele: ZIP, Huffman, LZ77
+			\end{itemize}
+		\end{block}
+		
+		% ---- Rechts ----
+		\column{0.48\textwidth}
+		\begin{block}{Verlustbehaftete Kompression}
+			\begin{itemize}
+				\item Nur angenäherte Rekonstruktion
+				\vspace{0.5cm}
+				\item Entfernt unwichtige Informationen
+				\vspace{0.5cm}
+				\item Höhere Kompressionsrate möglich
+				\vspace{0.5cm}
+				\item Für Wahrnehmungsdaten optimiert
+				\vspace{0.5cm}
+				\item Für Datenbanken (meistens) ungeeignet
+				\vspace{0.5cm}
+				\item Beispiele: JPEG, MP3, MPEG
+			\end{itemize}
+		\end{block}		
+	\end{columns}
+	
+\end{frame}
+\subsection{Informationsreduktion}
+\subsubsection{Entropie}
+\subsubsection{Redundanz}
+\subsubsection{Kodierung}
+
+\subsection{Modellierungsansätze der Kompression}
+\subsubsection{Statistische Verfahren}
+\subsubsection{Wörterbuchbasierte Verfahren}
+
+\subsection{Bewertungskriterien von Kompressionsverfahren}
+\subsection{Datenbankarchitekturen}
+\subsubsection{Relationale Datenbanken}
+\subsubsection{Spaltenorientierte Datenbanken}
+\subsubsection{NoSQL-Datenbanken}
+
+
+\section{Analyse ausgewählter Kompressionsverfahren}
+
+\subsection{FSST + GSST}
+\begin{frame}[fragile]{FSST: Fast Random Access String Compression \cite{fsst}}
+	\begin{columns}[T]
+		\column{0.48\textwidth}
+		\begin{itemize}
+			\item Leichtgewichtiges, verlustfreies Kompressionsverfahren für Zeichenketten
+			\item Entwickelt speziell für spaltenorientierte Datenbanksysteme
+			\item Verwendet eine statische Symboltabelle (\textbf{F}ast \textbf{S}tatic \textbf{S}ymbol \textbf{T}able)
+			\item Häufige Byte-Sequenzen werden durch kurze Codes ersetzt
+		\end{itemize}
+		
+		\vspace{0.4cm}
+		
+		\textbf{Zentrale Eigenschaften}
+		\begin{itemize}
+			\item Sehr schnelle Dekompression
+			\item Direkter Zugriff auf einzelne Blöcke möglich
+			\item Geringer Speichermehraufwand
+			\item Gute Balance zwischen Speicherreduktion und Laufzeit
+		\end{itemize}
+		
+		\column{0.48\textwidth}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\linewidth]{figures/fsst}
+			\caption{Beispielhafte Wörterbuchkompression eines URL-Korpus. Nachbau aus \cite{fsst}}
+			\label{fig:fsst}
+		\end{figure}
+	\end{columns}
+	\footnotetext{\color{BaseColor}BNL20  \color{black}Boncz, P.; Neumann, T.; Leis, V. (2020). \emph{FSST: Fast Random Access String Compression}.}
+\end{frame}
+
+\begin{frame}{GSST: Parallel string decompression at 191 GB/s on GPU \cite{10.1145/3719330.3721228}}
+	\begin{itemize}
+		\item Erweiterung von FSST für GPU-basierte Systeme
+		\item Kein neues Kompressionsverfahren, sondern parallele Dekompression
+		\item Nutzt die statische Symboltabelle von FSST
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Zentrale Idee}
+	\begin{itemize}
+		\item Aufteilung der Daten in unabhängige Blöcke
+		\item Parallele Verarbeitung durch viele GPU-Threads
+		\item Hohe Dekompressionsbandbreite
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Eigenschaften}
+	\begin{itemize}
+		\item Sehr hoher Durchsatz bei analytischen Workloads
+		\item Besonders dann sinnvoll, wenn GPU verfügbar ist
+		\item Zeigt Bedeutung hardwareangepasster Kompressionsformate
+	\end{itemize}
+	\footnotetext{\color{BaseColor}VHA25  \color{black}Vonk, R; Hoozemans, J.; Al-Ars, Z. (2025). \emph{GSST: Parallel string decompression at 191 GB/s on GPU}.}
+\end{frame}
+
+\subsection{DOPSC}
+
+\subsection{Fast \& Strong}
+
+\subsection{AlphaZip}
+
+\subsection{OnPair}
+
+\section{Vergleich und Einordnung}
+
+\subsection{Vergleich anhand der Bewertungskriterien}
+
+\subsection{Zentrale Zielkonflikte}
+
+\section{Evaluation}
+
+\subsection{Kernerkenntnisse}
+\begin{frame}[t]{Kernerkenntnisse}{}
+\end{frame}
+
+\subsection{Limitationen}
+\begin{frame}[t]{Limitationen}{}
+\end{frame}
+
+\subsection{Ausblick}
+\begin{frame}[t]{Ausblick}{}
 \end{frame}
 
 \begin{frame}[t,titleimage]{-}
-A frame using the \texttt{titleimage option}
+	\titlepage%
 \end{frame}
 
-% input exmple sections
-\input{sections/01_Intro_Landscape}
+\begin{frame}{Referenzen}
+	\begin{block}{Referenzen}
+		\printbibliography[heading=none]
+	\end{block}
+\end{frame}
+%
+%
+%
+%
+%
 \end{document}

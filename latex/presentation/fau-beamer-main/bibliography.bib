@@ -1,18 +1,44 @@
 
-@article{bungert2021bregman,
-      title={A Bregman Learning Framework for Sparse Neural Networks}, 
-      author={Leon Bungert and Tim Roith and Daniel Tenbrinck and Martin Burger},
-      year={2021},
-      eprint={2105.04319},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+@online{statista_datenvolumen_weltweit,
+  author       = {{Statista}},
+  title        = {Prognose zum weltweit generierten Datenvolumen bis 2029},
+  year         = {2024},
+  url          = {https://de.statista.com/statistik/daten/studie/267974/umfrage/prognose-zum-weltweit-generierten-datenvolumen/},
+  urldate      = {2026-02-09},
+  note         = {Basierend auf IDC Global DataSphere Forecast}
 }
 
-@article{bungert2021neural,
-      title={Neural Architecture Search via Bregman Iterations}, 
-      author={Leon Bungert and Tim Roith and Daniel Tenbrinck and Martin Burger},
-      year={2021},
-      eprint={2106.02479},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+@article{fsst,
+author = {Boncz, Peter and Neumann, Thomas and Leis, Viktor},
+title = {FSST: fast random access string compression},
+year = {2020},
+issue_date = {August 2020},
+publisher = {VLDB Endowment},
+volume = {13},
+number = {12},
+issn = {2150-8097},
+url = {https://doi.org/10.14778/3407790.3407851},
+doi = {10.14778/3407790.3407851},
+abstract = {Strings are prevalent in real-world data sets. They often occupy a large fraction of the data and are slow to process. In this work, we present Fast Static Symbol Table (FSST), a lightweight compression scheme for strings. On text data, FSST offers decompression and compression speed similar to or better than the best speed-optimized compression methods, such as LZ4, yet offers significantly better compression factors. Moreover, its use of a static symbol table allows random access to individual, compressed strings, enabling lazy decompression and query processing on compressed data. We believe these features will make FSST a valuable piece in the standard compression toolbox.},
+journal = {Proc. VLDB Endow.},
+month = jul,
+pages = {2649–2661},
+numpages = {13}
+}
+
+@inproceedings{10.1145/3719330.3721228,
+author = {Vonk, Robin and Hoozemans, Joost and Al-Ars, Zaid},
+title = {GSST: Parallel string decompression at 191 GB/s on GPU},
+year = {2025},
+isbn = {9798400715297},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3719330.3721228},
+doi = {10.1145/3719330.3721228},
+abstract = {Most of the commonly used compression standards make use of some form of the LZ algorithm. Decompressing this type of data is not a good match for the Single-Instruction, Multiple Thread (SIMT) model of computation used by GPUs, resulting in low throughput and poor utilization of the GPU parallel compute capabilities. In this paper, we introduce GSST, a GPU-optimized version of the FSST compression algorithm, which targets string compression. The optimizations proposed in this paper make the algorithm particularly suitable for GPUs, which allows it to achieve a significantly better tradeoff for decompression throughput vs compression ratio as compared to the state of the art. Our results show that the new algorithm pushes the Pareto curve closer towards the ideal region, completely dominating LZ-based compressors in the nvCOMP library (LZ4, Snappy, GDeflate). GSST provides a compression ratio of 2.74x and achieves a throughput of 191 GB/s on an A100 GPU.},
+booktitle = {Proceedings of the 5th Workshop on Challenges and Opportunities of Efficient and Performant Storage Systems},
+pages = {8–14},
+numpages = {7},
+location = {Rotterdam, Netherlands},
+series = {CHEOPS '25}
 }

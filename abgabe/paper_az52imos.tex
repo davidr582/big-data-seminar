@@ -1,0 +1,325 @@
+\documentclass[10pt,twoside,a4paper]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{booktabs}
+%\usepackage{stfloats}
+\usepackage{url}
+\usepackage{float}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{balance}
+\usepackage{iflang}
+
+\usepackage[ngerman]{babel}
+%\usepackage[english]{babel}
+
+\IfLanguageName{ngerman}{
+\newcommand*{\WinterSem}{Wintersemester}
+\newcommand*{\SummerSem}{Sommersemester}
+}{
+\newcommand*{\WinterSem}{winter term}
+\newcommand*{\SummerSem}{summer term}
+}
+
+% Calculate semester based on \month and \year
+\ifnum\month<4
+\newcounter{LastYear}
+\setcounter{LastYear}{\year}
+\addtocounter{LastYear}{-1}
+\newcommand{\SemesterShort}{WS \theLastYear/\the\year}
+\newcommand{\SemesterLong}{\WinterSem~\theLastYear/\the\year}
+\else\ifnum\month>9
+\newcounter{NextYear}
+\setcounter{NextYear}{\year}
+\addtocounter{NextYear}{1}
+\newcommand{\SemesterShort}{WS \the\year/\theNextYear}
+\newcommand{\SemesterLong}{\WinterSem~\the\year/\theNextYear}
+\else
+\newcommand{\SemesterShort}{SS \the\year}	
+\newcommand{\SemesterLong}{\SummerSem~\the\year}
+\fi
+\fi
+
+\begin{document}
+
+\author{
+  \IEEEauthorblockN{David Roppelt\\}
+  \IEEEauthorblockA{Email: david.roppelt@fau.de}
+}
+
+\title{Textkompressionsalgorithmen in Datenbanken - Eine Forschungsfeldübersicht
+	%brauch ich den IEEEmemebership command?
+\IfLanguageName{ngerman}{
+  \thanks{Dieser Beitrag entstand im Rahmen des ``Big Data Seminar''s, das im
+  \SemesterLong~vom Lehrstuhl für Informatik 6 (Datenmanagement) der
+  Friedrich-Alexander Universität Erlangen-Nürnberg durchgef"uhrt wurde.}
+}{
+  \thanks{This paper was written as part of the ``Big Data Seminar''
+  which was organized by the Chair of Computer Science 6 (Data Management) at the
+  Friedrich-Alexander Universität Erlangen-Nürnberg during \SemesterLong.}
+}}
+
+
+
+
+% The paper headers
+\markboth{Big Data Seminar \SemesterShort}{David Roppelt: Textkompressionsalgorithmen in Datenbanken - Eine Forschungsfeldübersicht}
+
+\maketitle
+
+\begin{abstract}
+	Moderne Datenbanksysteme müssen stetig wachsende Datenmengen effizient speichern und verarbeiten. Dabei machen textuelle Daten einen erheblichen Anteil aus. Die Auswahl geeigneter Kompressionsverfahren ist nicht trivial, da bestehende Ansätze unterschiedliche Zielsetzungen verfolgen und sich hinsichtlich Speicherreduktion, Zugriffsgeschwindigkeit und Verarbeitbarkeit auf komprimierten Daten deutlich unterscheiden. Ziel dieser Arbeit ist es daher, eine strukturierte Übersicht über aktuelle verlustfreie Textkompressionsverfahren im Datenbankkontext zu geben, indem spezifische Bewertungskriterien wie Kompressionsrate und Laufzeitverhalten verglichen werden. Hierzu werden theoretische Grundlagen, datenbankspezifische Anforderungen sowie ausgewählte Forschungsarbeiten anhand einheitlicher Bewertungskriterien eingeordnet. Die Analyse zeigt, dass es kein universell bestes Verfahren gibt, sondern die Eignung vom jeweiligen Datenbanktyp und Anfrageaufkommen abhängt. Die Arbeit liefert damit eine Orientierungshilfe zur Auswahl geeigneter Kompressionsstrategien und macht zentrale Zielkonflikte innerhalb des Forschungsfeldes sichtbar.
+\end{abstract}
+
+\section{Einleitung}
+\IEEEPARstart{D}{as} Datenvolumen, welches weltweit produziert wird, steigt jedes Jahr weiter an und damit auch die Herausforderungen hinsichtlich Speicherbedarf, Datenübertragungsraten und Abfrageeffizienz. Im Zentrum dieser Problematik stehen Datenbanksysteme, da diese jetzt und in Zukunft die fundamentale Infrastruktur zahlreicher Anwendungen sind. Diese müssen die immer größer werdenden Datenvolumina dauerhaft verwalten und insbesondere auch performant bereitstellen. Aus diesen Gründen gewinnen Textkompressionsalgorithmen zunehmend an Bedeutung, da sie es ermöglichen textbasierte Daten komprimiert zu speichern und im Optimalfall gleichzeitig auch Abfragen effizienter durchzuführen, ohne die Daten vollständig dekomprimieren zu müssen. Dadurch leisten diese einen enormen Beitrag zur Optimierung der Speichernutzung sowie der Verarbeitungsgeschwindigkeit und helfen bei der Bewältigung der momentanen digitalen Transformation.
+
+Die Forschungshistorie im Bereich der Textkompressionsalgorithmen geht sehr weit in die Vergangenheit, aber durch neuere Technologien und Erkenntnisse in diesem Bereich entstehen immer wieder neue Anforderungen und Herausforderungen. Es existieren viele verschiedene Arten von Datenbanken, wobei jede Vor- und Nachteile mit sich bringt. Der Fokus dieser Arbeit liegt darauf, einen Überblick über die aktuelle Forschung im Bereich von Textkompressionsalgorithmen in Datenbanken zu erarbeiten. Um dieses Ziel zu erreichen sollen zuerst die Grundlagen von Textkomprimierung und Datenbanken geschaffen werden. Außerdem sollen verschiedene Forschungsansätze betrachtet werden und mit gängigen Verfahren verglichen werden.
+
+Dazu werden ausgewählte Kompressionsverfahren systematisch analysiert und anhand einheitlicher Kriterien miteinander verglichen. Der Fokus liegt auf verlustfreien Verfahren, die für den Einsatz in relationalen, spaltenorientierten und NoSQL-Datenbanksystemen geeignet sind und datenbankspezifische Anforderungen wie direkten Zugriff, effiziente Dekompression und geringe Latenz berücksichtigen. Die Arbeit verfolgt dabei nicht das Ziel, ein neues Kompressionsverfahren zu entwickeln oder bestehende Ansätze experimentell neu zu evaluieren. Stattdessen soll ein konzeptioneller Ordnungsrahmen geschaffen werden. Dieser soll es ermöglichen, aktuelle Forschungsarbeiten einzuordnen und ihre jeweiligen Stärken und Schwächen im Datenbankkontext herauszuarbeiten.
+
+Zunächst werden in \ref{va} relevante verwandte Arbeiten vorgestellt, die einen Überblick über bestehende Forschungsansätze im Bereich der Textkompression in Datenbanksystemen geben. Darauf aufbauend werden im Konzeptteil \ref{ko} die grundlegenden theoretischen und technischen Grundlagen der Datenkompression sowie architekturspezifische Anforderungen von Datenbanksystemen erläutert und ein konzeptioneller Rahmen für die spätere Analyse entwickelt. \ref{im} setzt diesen konzeptionellen Rahmen um, indem ausgewählte Forschungsarbeiten zu Textkompressionsalgorithmen im Datenbankkontext analysiert und vergleichend gegenübergestellt werden. Dabei werden die Ansätze hinsichtlich ihres Modellierungsansatzes, ihrer Kompressionswirkung, ihres Laufzeitverhaltens sowie ihrer Eignung für unterschiedliche Datenbankarchitekturen eingeordnet. In der Evaluation \ref{ev} wird dieses Paper den aufgestellten Zielen gegenübergestellt. Den Abschluss der Arbeit bildet das Schlusskapitel \ref{sc}, in dem die zentralen Erkenntnisse zusammengefasst und die wichtigsten Ergebnisse der Vergleichsanalyse kritisch reflektiert werden.
+
+\section{Hauptteil}
+\subsection{Verwandte Arbeiten}\label{va}
+Raichand und Aggarwal \cite{Raichand} stellen einen grundlegenden Überblick über die bestehende Forschung zu Kompressionsverfahren in spaltenorientierten Datenbanksystemen bereit. Das Paper betrachtet die historische Entwicklung in diesem Bereich genauer und zeigt, dass Kompressionstechniken schon lange bekannt waren, bevor sie im Kontext der Datenbankperformanz untersucht wurden. Es werden verschiedene zentrale algorithmische Ansätze, wie Wörterbuchkodierung, Lauflängenkodierung, Nullunterdrückung und Lempel-Ziv-basierte Verfahren zusammengefasst. Außerdem hebt der Artikel hervor warum spaltenorientierte Datenbanksysteme aufgrund ihrer Speicherorganisation besonders hohe Kompressionsraten erzielen. Im Gegensatz dazu verfolgt die vorliegende Arbeit einen stärker aktuellen, differenzierenden Ansatz. Sie erweitert den betrachteten Stand der Forschung um neuere Kompressionsverfahren, die explizit auf direkten Zugriff auf komprimierte Zeichenketten, geringe Latenz und architekturspezifische Optimierungen ausgelegt sind. Darüber hinaus werden die betrachteten Arbeiten nicht nur deskriptiv zusammengefasst, sondern systematisch entlang einheitlicher Kriterien eingeordnet. Dadurch ergänzt diese Arbeit den eher grundlagenorientierten Überblick von Raichand und Aggarwal um eine tiefergehende, moderne Perspektive auf Textkompression im Datenbankkontext.
+
+Lasch et al. untersuchen in Faster \& Strong \cite{faster} einen Ansatz zur starken Wörterbuchkompression von Zeichenketten in In-Memory-Datenbanksystemen. Ziel der Arbeit ist es, hohe Kompressionsraten zu erzielen, ohne die Zugriffseffizienz für datenbanktypische Anfrageaufkommen unpraktikabel zu verschlechtern. Hierzu kombinieren die Autoren stichprobenbasierte Wörterbucherstellung mit vektorisierter Dekompression, um den Zielkonflikt zwischen Speicherreduktion und Laufzeitverhalten abzumildern. Im Gegensatz zu leichtgewichtigen Verfahren wie FSST, die primär auf minimale Dekompressionslatenz optimiert sind, priorisiert der Ansatz von Lasch et al. eine stärkere Datenreduktion und adressiert damit insbesondere speicher- und I/O-intensive analytische Szenarien. Die Arbeit liefert damit eine komplementäre Perspektive auf den Entwurf von Textkompressionsverfahren im Datenbankkontext und dient als Referenz für den Vergleich unterschiedlicher Optimierungsziele. Diese Arbeit ist im Gegensatz zur Vorliegenden keine Forschungsfeldübersicht, aber bewertet das vorgestellte Verfahren im Vergleich zu aktuellen Forschungsarbeiten und stellt eigene Techniken vor um Zugriffs- und Kompressionszeiten zu verbessern. Dadurch unterscheidet sich diese Arbeit in ihrem Anspruch und Beitrag grundlegend von Faster \& Strong, indem sie eine vergleichende und strukturierende Perspektive auf das Forschungsfeld einnimmt.
+
+Damme et al. geben in ihrer Arbeit Lightweight Data Compression Algorithms: An Experimental Survey \cite{damme} einen experimentellen Überblick über leichtgewichtige Kompressionsverfahren für In-Memory-Datenbanksysteme. Der Schwerpunkt liegt dabei auf der verlustfreien Kompression numerischer Daten, insbesondere von Ganzzahlsequenzen in spaltenorientierten Speicherlayouts. Untersucht werden verschiedene Verfahren und Verfahrenskombinationen, die auf Techniken wie Delta-Kodierung, Frame-of-Reference, Lauflängenkodierung, Wörterbuchkodierung sowie Nullunterdrückung basieren und hinsichtlich Kompressionsrate und Laufzeitverhalten evaluiert werden. Im Gegensatz zur vorliegenden Arbeit werden keine speziell auf Text- oder Zeichenkettenkompression ausgerichteten Algorithmen betrachtet. Zeichenketten spielen lediglich eine untergeordnete Rolle, etwa im Zusammenhang mit Wörterbuchkodierung als Vorverarbeitung numerischer Werte. Verfahren zur Textkompression mit direktem Zugriff, wie sie für moderne Datenbanksysteme relevant sind, stehen nicht im Fokus. Die Arbeit ergänzt die vorliegende Forschungsfeldübersicht daher vor allem im Bereich der leistungsorientierten Ganzzahlkompression, während diese Arbeit gezielt Textkompressionsverfahren im Datenbankkontext untersucht.
+
+\subsection{Konzept}\label{ko}
+Diese Sektion führt die grundlegenden Konzepte und Begriffe ein, die für das Verständnis von Textkompressionsverfahren im Kontext von Datenbanksystemen erforderlich sind. Ziel ist es, einen einheitlichen begrifflichen und theoretischen Rahmen zu schaffen, der die Einordnung und Bewertung der in den folgenden Kapiteln diskutierten Algorithmen und Forschungsarbeiten ermöglicht.
+
+\subsubsection{Verlustfreie und verlustbehaftete Kompression}
+Datenkompression bezeichnet Verfahren zur Verringerung des Speicherbedarfs digitaler Informationen. Diese können grundsätzlich in zwei Klassen eingeteilt werden: \textbf{verlustfreie} und \textbf{verlustbehaftete Kompression}.
+
+Wie der Name es schon vermuten lässt, können bei der verlustfreien Kompression die ursprünglichen Daten vollständig und bitgenau rekonstruiert werden. Verlustfreie Verfahren nutzen daher die inhärente Redundanz in Daten, indem sie häufig vorkommende Muster effizient kodieren. \cite[S.~8]{salomon}
+
+Demgegenüber stehen verlustbehaftete Verfahren, bei denen die Rekonstruktion nur eine approximierte Version der ursprünglichen Daten liefert. Dadurch können für den Menschen oder die Anwendung weniger relevante Informationen gezielt entfernt und deutlich höhere Kompressionsraten erreicht werden. \cite [S. 8]{salomon}
+
+Im Kontext von Datenbanksystemen ist vor allem die verlustfreie Kompression von Bedeutung, da die gespeicherten Daten semantisch exakt erhalten bleiben sollen. Dennoch gibt es spezialisierte Szenarien in welchen auch die verlustbehaftete Kompression Anwendung findet.
+
+\subsubsection{Prinzipien der Informationsreduktion}
+Drei zentrale theoretische Konzepte, die die Wirksamkeit und Grenzen von Kompressionsverfahren bestimmen, sind \textbf{Entropie}, \textbf{Redundanz} und \textbf{Kodierung}. Diese Prinzipien bilden die Basis nahezu aller modernen Kompressionsalgorithmen und sind der Schlüssel dafür, weshalb bestimmte Verfahren für spezifische Datentypen besonders gut geeignet sind.
+
+Die Entropie beschreibt die durchschnittliche Informationsmenge, die in einem Symbol einer Datenquelle enthalten ist. Somit definiert sie eine theoretische Untergrenze für das maximale Kompressionspotenzial einer Datenquelle. Enthalten die zu komprimierenden Daten wenig strukturelle Muster, bedeutet das, dass die Quelle hohe Entropie hat und die Daten damit nur begrenzt komprimierbar sind. Daraus folgt, dass Daten mit geringer Entropie prinzipiell hohe Kompressionsraten ermöglichen. \cite[Kap. 2.1]{salomon}
+
+Redundanz bezeichnet den Anteil einer Datenquelle, der keine zusätzliche Information enthält. Dieser Anteil kann daher entfernt werden, ohne die Fähigkeit zur exakten Rekonstruktion der ursprünglichen Daten zu verlieren. Im Bereich der Datenkompression entsteht Redundanz oft durch statistische Regelmäßigkeiten, wiederkehrende Muster oder strukturelle Korrelationen innerhalb der Daten. Dieses Prinzip bildet die grundlegende Voraussetzung für die Reduktion des Datenumfangs. \cite[Kap. 2.1]{salomon}
+
+Kodierung beschreibt im Kontext der Datenkompression die systematische Zuordnung von Symbolen einer Datenquelle zu Codewörtern. Die Länge und Struktur der Codewörter wird dabei an die statistischen Eigenschaften der Quelle angepasst. Durch diese Abbildung können häufig auftretende Symbole effizienter repräsentiert werden. Das sorgt insgesamt für eine kompaktere Gesamtdarstellung der Daten. Damit die ursprünglichen Daten verlustfrei rekonstruiert werden können, muss die Zuordnung eindeutig dekodierbar bleiben. \cite[Kap. 1]{salomon}
+
+\subsubsection{Modellierungsansätze der Kompression}
+Kompressionsverfahren variieren nicht nur in Bezug auf ihre spezifischen Algorithmen, sondern auch hinsichtlich der Methodik, mit der sie die zu Grunde liegende Datenquelle modellieren. Der gewählte Modellierungsansatz hat maßgeblichen Einfluss darauf, welche Arten von Redundanz genutzt werden können und wie effizient eine Kompression ist. Die Literatur unterscheidet in diesem Bereich zwischen zwei grundlegenden Ansätzen: \textbf{statistische Modellierung} und \textbf{wörterbuchbasierte Modellierung}. \cite[Kap. 2.17]{salomon}
+
+Bei der statistischen Modellierung wird die Datenquelle durch Wahrscheinlichkeitsverteilungen ihrer Symbole beschrieben. Ziel ist es, die Häufigkeit des Auftretens einzelner Symbole oder Symbolfolgen zu erfassen und diese Information zur Konstruktion effizienter Codes zu nutzen. Symbole mit hoher Auftretenswahrscheinlichkeit werden dabei kürzer kodiert als seltene Symbole. Die theoretische Grundlage dieses Ansatzes bildet die Informationstheorie, insbesondere das Konzept der Entropie, welche eine untere Schranke für die durchschnittliche Codewortlänge definiert. Zu den bekanntesten Verfahren dieses Ansatzes zählen variable-Längen-Kodierungen, Präfixcodes sowie Huffman- und arithmetische Kodierung. Statistische Verfahren eignen sich besonders für Datenquellen mit stabilen oder gut approximierbaren Wahrscheinlichkeitsverteilungen. \cite[S. 43ff.]{salomon}
+
+Demgegenüber steht die wörterbuchbasierte Modellierung, bei der wiederkehrende Muster, Teilzeichenketten oder Symbolsequenzen explizit identifiziert und durch Referenzen auf ein dynamisch oder statisch aufgebautes Wörterbuch ersetzt werden. Anstatt einzelne Symbole probabilistisch zu bewerten, konzentriert sich dieser Ansatz auf strukturelle Wiederholungen innerhalb der Daten. Die bekanntesten Vertreter dieses Modells sind die Lempel-Ziv-Verfahren, darunter \textbf{LZ77}, \textbf{LZ78} und deren Weiterentwicklungen. Wörterbuchbasierte Verfahren sind vor allem bei textuellen Daten und Daten mit hoher Wiederholungsrate effektiv, da sie ohne explizite Wahrscheinlichkeitsmodelle auskommen und sich adaptiv an die Struktur der Eingabedaten anpassen können. \cite[S. 165ff.]{salomon}
+
+In der Praxis werden beide Modellierungsansätze häufig kombiniert, um ihre jeweiligen Stärken auszunutzen. Ein prominentes Beispiel hierfür ist das Deflate-Verfahren, das eine Lempel-Ziv-basierte Vorverarbeitung mit anschließender statistischer Kodierung verbindet. Solche hybriden Ansätze sind auch im Kontext von Datenbanksystemen weit verbreitet, da sie sowohl gute Kompressionsraten als auch akzeptable Laufzeiten ermöglichen. Die Wahl des Modellierungsansatzes stellt aus diesem Grund einen zentralen Entwurfsentscheid bei der Entwicklung und Auswahl von Kompressionsverfahren dar. \cite[Kap. 3.23]{salomon}
+\subsubsection{Bewertungskriterien von Kompressionsverfahren}
+Zur Beurteilung und zum Vergleich von Kompressionsverfahren werden verschiedene quantitative und qualitative Kriterien herangezogen. Diese Bewertungskriterien erfassen sowohl die Effizienz der Datenreduktion als auch die Auswirkungen auf Rechenaufwand, Speicherverbrauch und Anwendbarkeit. Eine isolierte Betrachtung einzelner Kennzahlen ist dabei meist nicht ausreichend, da Kompressionsverfahren typischerweise einen Zielkonflikt zwischen \textbf{Kompressionsrate} und \textbf{Laufzeitverhalten} aufweisen.
+
+Ein zentrales Maß ist die Kompressionsrate, die das Verhältnis zwischen der Größe der komprimierten Daten und der ursprünglichen Datenmenge beschreibt. Sie gibt an, welcher Anteil der Originalgröße nach der Kompression verbleibt. Eng damit verwandt ist der \textbf{Kompressionsfaktor}, der das inverse Verhältnis darstellt und angibt, um welchen Faktor die Datenmenge reduziert wurde. Diese Kennzahlen erlauben eine direkte Aussage über die erzielte Platzersparnis, sagen jedoch nichts über den erforderlichen Rechenaufwand aus. \cite[S. 10f.]{salomon}
+
+Neben der reinen Datenreduktion spielt die \textbf{Geschwindigkeit der Kompression und Dekompression} eine wesentliche Rolle. Sie wird häufig in Form des Durchsatzes oder der benötigten Rechenzyklen pro Byte gemessen. Insbesondere in datenbanknahen Anwendungsszenarien ist eine schnelle Dekompression von hoher Bedeutung, da komprimierte Daten oft während der Anfrageverarbeitung gelesen und verarbeitet werden müssen. Verfahren mit hoher Kompressionsrate, aber hohem Rechenaufwand können in solchen Fällen ungeeignet sein.
+
+Ein weiteres wichtiges Kriterium ist der \textbf{zusätzliche Speicherbedarf}, den ein Kompressionsverfahren verursacht. Dieser umfasst etwa Tabellen, Wörterbücher oder Hilfsstrukturen, die für Kodierung und Dekodierung erforderlich sind. Verfahren mit großem Speichermehraufwand können besonders bei großen Datenmengen oder in speicherbeschränkten Systemen nachteilig sein. Ebenso relevant ist die Frage, ob ein Verfahren sequentiell oder blockweise arbeitet, da dies Einfluss auf Latenz und Speicherbedarf hat. \cite[S. 10f.]{salomon}
+
+Für den Einsatz in Datenbanksystemen gewinnt zudem die Unterstützung von \textbf{direktem Zugriff} an Bedeutung. Kompressionsverfahren, die einen direkten Zugriff auf einzelne Datenwerte oder Datenbereiche ermöglichen, ohne eine vollständige Dekompression durchzuführen, sind hier besonders vorteilhaft. Diese Eigenschaft beeinflusst maßgeblich die Eignung eines Verfahrens für unterschiedliche Datenbankarchitekturen und Abfragearten. \cite{fsst}
+
+Insgesamt zeigt sich, dass die Bewertung von Kompressionsverfahren stets anwendungsabhängig erfolgen muss. Während einige Verfahren auf maximale Datenreduktion optimiert sind, priorisieren andere geringe Latenz oder einfache Implementierbarkeit. Die Wahl eines geeigneten Verfahrens stellt daher einen Kompromiss zwischen mehreren, teils konkurrierenden Bewertungskriterien dar.
+\subsubsection{Gängige Kompressionsalgorithmen}
+Aufbauend auf den beschriebenen Prinzipien und Modellierungsansätzen haben sich im Laufe der Zeit verschiedene Kompressionsalgorithmen etabliert. Je nach Datentyp und Anwendungsszenario weisen diese unterschiedliche Eigenschaften auf.
+
+Die \textbf{Huffman-Kodierung} ist eines der bekanntesten statistischen Kompressionsverfahren. Sie basiert auf der Konstruktion eines präfixfreien Codes, bei dem die Länge der Codewörter invers proportional zur Auftretenswahrscheinlichkeit der jeweiligen Symbole ist. Häufig vorkommende Symbole erhalten kurze Codewörter, während seltene Symbole längere Repräsentationen verwenden. Die Huffman-Kodierung ist optimal im Sinne der minimalen mittleren Codewortlänge für ganzzahlige Codewortlängen und wird häufig als Basiskomponente in komplexeren Kompressionsverfahren eingesetzt. \cite[Kap. 2.8]{salomon}
+
+\textbf{Lempel-Ziv-basierte Kompressionsverfahren} verfolgen einen wörterbuchbasierten Ansatz und identifizieren wiederkehrende Muster oder Teilzeichenketten innerhalb der Eingabedaten. Anstatt diese mehrfach zu speichern, werden Referenzen auf bereits bekannte Sequenzen verwendet. Zu den klassischen Vertretern zählen LZ77, LZ78 und LZW, die sich vor allem in der Art und Weise der Wörterbuchverwaltung unterscheiden. Diese Verfahren arbeiten adaptiv und benötigen keine vorgelagerte statistische Analyse der Daten, was sie besonders flexibel für unterschiedliche Datentypen macht. Aufgrund ihrer Effizienz und Robustheit bilden Lempel-Ziv-Verfahren die Grundlage zahlreicher verbreiteter Formate und Systeme. \cite[Kap. 3.3, Kap. 3.9, Kap. 3.13]{salomon}
+
+Die \textbf{Lauflängenkodierung} ist ein einfaches strukturelles Kompressionsverfahren, das auf der Komprimierung aufeinanderfolgender identischer Symbole basiert. Wiederholungen werden durch die Kombination aus Symbol und Wiederholungsanzahl ersetzt. Lauflängenkodierung ist besonders effektiv bei Daten mit langen Sequenzen identischer Werte, etwa bei bestimmten Textmustern oder spaltenorientierten Daten mit geringer Wertediversität. Bei stark variierenden Daten kann das Verfahren jedoch zu keiner oder sogar negativer Kompression führen. \cite[Kap. 1.2]{salomon}
+
+Die \textbf{Wörterbuchkodierung} ersetzt häufig auftretende Werte durch kompakte Referenzen auf ein zentrales Wörterbuch. Dieses Verfahren wird insbesondere in spaltenorientierten Datenbanksystemen eingesetzt, da dort oft viele identische Attributwerte auftreten \cite[Kap. 3.1, Kap. 3.2, Kap. 3.9]{salomon}. Ergänzend dazu reduziert die Nullunterdrückung den Speicherbedarf, indem explizite Repräsentationen von Null- oder Standardwerten vermieden werden. Beide Verfahren zeichnen sich durch geringen Rechenaufwand und die Möglichkeit des direkten Zugriffs auf einzelne Datenwerte aus, was sie für datenbanknahe Anwendungen besonders geeignet macht.
+
+Neben den klassischen Verfahren haben sich moderne \textbf{Hochgeschwindigkeitscodecs} wie \textbf{Snappy} oder \textbf{LZ4} etabliert. Diese Algorithmen priorisieren geringe Latenz und hohe Dekompressionsgeschwindigkeit gegenüber maximaler Kompressionsrate. Sie basieren häufig auf vereinfachten Lempel-Ziv-Varianten und sind für den Einsatz in speicher- und abfrageintensiven Systemen konzipiert. In Datenbanksystemen werden sie bevorzugt eingesetzt, wenn schnelle Anfrageverarbeitung wichtiger als eine maximale Reduktion des Speicherbedarfs ist.
+
+\subsubsection{Datenbankarchitekturen und ihre Anforderungen}
+Datenbanksysteme lassen sich hinsichtlich ihres Datenmodells und ihrer physischen Speicherorganisation in unterschiedliche Architekturen einteilen. Die gewählte Architektur beeinflusst maßgeblich, wie Daten gespeichert, abgerufen und verarbeitet werden. Daraus folgen wiederum die Anforderungen an geeignete Kompressionsverfahren für die spezifischen Architekturen. Eine grundlegende Unterscheidung erfolgt zwischen \textbf{relationalen Datenbanksystemen} und nicht-relationalen, sogenannten \textbf{NoSQL-Datenbanken}, die jeweils unterschiedliche Entwurfsziele verfolgen.
+
+Relationale Datenbanksysteme basieren auf einem tabellarischen Datenmodell mit festem Schema und speichern Daten typischerweise zeilenorientiert. Dabei werden alle Attribute eines Tupels gemeinsam abgelegt, was effiziente Zugriffe auf vollständige Datensätze begünstigt. Diese Architektur ist primär für transaktionsorientierte Anwendungen ausgelegt, bei denen Konsistenz, Integrität und häufige Schreiboperationen im Vordergrund stehen. Für Kompressionsverfahren ergibt sich daraus die Anforderung, dass einzelne Tupel mit geringer Latenz dekomprimiert werden können. Verfahren mit hohem Speichermehraufwand oder ausschließlich blockweiser Verarbeitung sind in diesem Kontext weniger geeignet, da sie den direkten Zugriff auf einzelne Datensätze erschweren. \cite[Kap. 1.2]{kaufmann}
+
+\textbf{Spaltenorientierte Datenbanken} speichern Daten attributweise, sodass bei einer Anfrage nur die tatsächlich benötigten Spalten gelesen werden müssen. Dies reduziert die I/O-Kosten und führt bei leseintensiven analytischen Anwendungen zu deutlichen Performanzvorteilen. Da entsprechende Abfragen häufig nur auf wenige Attribute großer Datenbestände zugreifen, eignen sich diese besonders für Data-Warehouse- und Entscheidungsunterstützungsszenarien. Zudem weisen spaltenweise gespeicherte Daten aufgrund der höheren Wertehomogenität eine bessere Komprimierbarkeit auf, was Speicherbedarf und Datenübertragungsaufwand weiter reduziert. \cite{abadi}
+
+NoSQL-Datenbanken verfolgen alternative Datenmodelle, um Skalierbarkeit, Verfügbarkeit und Flexibilität zu erhöhen. Zu den wichtigsten Kategorien zählen Schlüssel-Wert-Speicher, dokumentorientierte Datenbanken, spaltenbasierte NoSQL-Systeme sowie Graphdatenbanken. Diese Systeme verzichten häufig auf ein starres Schema und sind für den Betrieb in verteilten Umgebungen konzipiert. Aufgrund der heterogenen Datenstrukturen und dynamischen Zugriffsmuster kommen hier meist generische, robuste Kompressionsverfahren zum Einsatz, die im stromorientierten Betrieb arbeiten und nur geringen zusätzlichen Speicherbedarf verursachen. Die maximale Kompressionsrate tritt dabei häufig hinter Durchsatz und geringer Latenz zurück. \cite[Kap. 1.3]{kaufmann}
+
+Zusammenfassend lassen sich mehrere architekturabhängige Anforderungen an Kompressionsverfahren identifizieren. Zeilenorientierte Systeme erfordern eine schnelle, tupelweise Dekompression, während spaltenorientierte Datenbanken Verfahren begünstigen, die hohe Kompressionsraten bei gleichzeitigem direktem Zugriff ermöglichen. NoSQL-Systeme stellen hingegen Anforderungen an Skalierbarkeit, geringe Metadatenkosten und effiziente sequentielle Verarbeitung. Die Auswahl eines geeigneten Kompressionsverfahrens ist daher eng an die jeweilige Datenbankarchitektur sowie das dominierende Anfrageaufkommen gekoppelt.
+
+\subsubsection{Konzeptioneller Rahmen der Arbeit}
+Die in diesem Kapitel vorgestellten Grundlagen bilden den konzeptionellen Rahmen für die weitere Untersuchung von Textkompressionsalgorithmen in Datenbanksystemen. Durch die Einführung zentraler Begriffe, Modellierungsansätze und Bewertungskriterien wird eine einheitliche Basis geschaffen, die eine strukturierte Analyse bestehender Forschungsarbeiten ermöglicht. Insbesondere die Unterscheidung zwischen statistischen und wörterbuchbasierten Kompressionsansätzen sowie die Betrachtung architekturabhängiger Anforderungen dient als Grundlage für die systematische Einordnung der im weiteren Verlauf diskutierten Verfahren.
+
+Darüber hinaus erlauben die definierten Bewertungskriterien, wie Kompressionsrate, Laufzeitverhalten, Speichermehraufwand und Unterstützung von direktem Zugriff, einen vergleichbaren Blick auf unterschiedliche Ansätze, unabhängig von ihrer konkreten Implementierung. Der folgende Hauptteil nutzt diesen konzeptionellen Rahmen, um relevante Forschungsarbeiten einzuordnen, gegenüberzustellen und deren Eignung für verschiedene Datenbankarchitekturen zu diskutieren.
+
+\subsection{Analytischer Vergleich der Ansätze}\label{im}
+Dieses Kapitel setzt den im vorherigen Abschnitt entwickelten konzeptionellen Rahmen in die Praxis um. Da es sich bei dieser Arbeit um eine Forschungsfeldübersicht handelt, besteht die Umsetzung nicht in der Implementierung eines konkreten Kompressionsverfahrens, sondern in der systematischen Auswahl, Analyse und Gegenüberstellung relevanter wissenschaftlicher Arbeiten zu Textkompressionsalgorithmen im Datenbankkontext. Ziel ist es, bestehende Ansätze anhand der zuvor definierten Kriterien einzuordnen und vergleichbar zu machen.
+
+Die Identifikation geeigneter Arbeiten erfolgte durch eine gezielte Literaturrecherche in etablierten wissenschaftlichen Datenbanken und Konferenzarchiven, insbesondere arXiv, ACM Digital Library und Proceedings of the VLDB Endowment. Dabei wurden Suchbegriffe wie 'string compression', 'text compression', 'dictionary compression' sowie 'random access compression' in Kombination mit 'database systems' verwendet. Ergänzend wurden Referenzen aus einschlägigen Übersichts- und Systempapern berücksichtigt, um relevante Arbeiten nicht isoliert, sondern im Kontext des bestehenden Forschungsstands zu erfassen.
+
+Aus der so gewonnenen Menge an Publikationen wurden diejenigen Arbeiten ausgewählt, die einen klaren Bezug zu Text- bzw. Zeichenkettenkompression in Datenbanksystemen aufweisen und explizit architekturspezifische Anforderungen adressieren. Auswahlkriterien waren unter anderem der Fokus auf verlustfreie Verfahren, die Unterstützung von direktem Zugriff auf komprimierte Daten, experimentelle Evaluationen im Datenbankkontext sowie die Relevanz für spaltenorientierte oder In-Memory-Systeme. Dadurch wird sichergestellt, dass die betrachteten Arbeiten sowohl konzeptionell als auch praktisch vergleichbar sind.
+
+Der Vergleich der ausgewählten Arbeiten erfolgt entlang der im Konzeptteil eingeführten Dimensionen. Im Fokus steht dabei der zugrunde liegende Modellierungsansatz, die erzielte Kompressionsrate, das Laufzeitverhalten bei Kompression und Dekompression, der Speichermehraufwand sowie die Unterstützung von direktem Zugriff und effizienter Anfrageverarbeitung. Die folgenden Unterabschnitte stellen die ausgewählten Arbeiten jeweils einzeln vor und ordnen sie anschließend vergleichend ein, um Gemeinsamkeiten, Unterschiede und bestehende Zielkonflikte herauszuarbeiten.
+
+\subsubsection{FSST: Fast Random Access String Compression (FSST)}
+Boncz et al. stellen mit FSST (Fast Static Symbol Table) \cite{fsst} ein verlustfreies, leichtgewichtiges Kompressionsverfahren für textuelle Zeichenketten-Spalten vor, das speziell für den Einsatz in modernen spaltenorientierten Datenbanksystemen konzipiert ist. Ziel des Ansatzes ist es, eine hohe Dekompressionsgeschwindigkeit mit Unterstützung von direktem Zugriff auf einzelne Zeichenketten zu kombinieren, ohne dabei aufwendige dynamische Wörterbuchstrukturen zu verwenden.
+
+Der Ansatz von FSST basiert auf einer statischen Wörterbuchkodierung (siehe \ref{fig:fsst}), bei der häufig vorkommende Byte-Sequenzen durch kurze Codes ersetzt werden. Die Symboltabelle wird vor der eigentlichen Kompression erzeugt und während der Kodierung nicht dynamisch erweitert, wodurch sich FSST konzeptionell von klassischen Lempel-Ziv-basierten Verfahren unterscheidet. Dadurch wird ein deterministisches und sehr effizientes Dekodierverfahren ermöglicht, das sich besonders für datenbanknahe Lasten eignet.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{figures/fsst}
+	\caption{Beispielhafte Wörterbuchkompression eines URL-Korpus. Nachbau aus \cite{fsst}}
+	\label{fig:fsst}
+\end{figure}
+
+Ein zentrales Merkmal von FSST ist die explizite Optimierung auf Direktzugriffe. Jede komprimierte Zeichenkette kann unabhängig von anderen dekomprimiert werden, ohne dass vorherige Daten verarbeitet werden müssen. Diese Eigenschaft ist besonders für Datenbanksysteme relevant, da Abfragen häufig selektiv auf einzelne Tupel oder Attributwerte zugreifen. Der notwendige Speichermehraufwand für das statische Wörterbuch ist begrenzt und amortisiert sich bei größeren Datenmengen durch die erzielte Speicherersparnis.
+
+Die experimentelle Evaluation zeigt, dass FSST im Vergleich zu etablierten Verfahren wie Snappy oder LZ4 eine vergleichbare oder höhere Dekompressions- und Kompressionsgeschwindigkeit erreicht, während die Kompressionsrate auf Textdaten merkbar besser ist. Diese hohen Geschwindigkeiten werden vor allem durch AVX512 Vektorisierung erreicht. Besonders in analytischen Szenarien mit Attributen, die überwiegend Zeichenketten enthalten, bietet FSST damit einen günstigen Kompromiss zwischen Speicherreduktion und Laufzeitverhalten. Aufgrund dieser Eigenschaften eignet sich der Ansatz primär für spaltenorientierte und In-Memory-Datenbanksysteme.
+
+Aufbauend auf dem FSST-Verfahren stellen die Autoren von GSST (GPU Static Symbol Table) \cite{gsst} eine architekturspezifische Erweiterung vor, die die Dekompression von FSST-kodierten Zeichenketten für den Einsatz auf GPUs optimiert. Der Ansatz verfolgt dabei nicht das Ziel, die zu Grunde liegende Kompressionsmethode zu verändern, sondern konzentriert sich auf eine effiziente Parallelisierung der Dekompression unter Beibehaltung des FSST-Datenformats.
+
+GSST nutzt die statische Symboltabelle und die deterministische Dekodierbarkeit von FSST, um komprimierte Blöcke in unabhängige Teilbereiche zu zerlegen, die parallel verarbeitet werden können. Hierzu werden zusätzliche Metadaten eingeführt, welche eine koordinierte Dekompression durch viele Threads ermöglichen. Die vorgeschlagenen Anpassungen sind eng an die Eigenschaften von FSST gekoppelt und lassen sich nicht ohne Weiteres auf andere Kompressionsverfahren übertragen.
+
+Die Evaluation zeigt, dass GSST auf moderner GPU-Hardware eine sehr hohe Dekompressionsbandbreite erreicht und damit insbesondere für analytische Anfrageaufkommen mit zeichenkettenlastigen Attributen geeignet ist. Gleichzeitig verdeutlicht der Ansatz, dass die Wahl eines geeigneten Kompressionsformats eine entscheidende Voraussetzung für architekturspezifische Optimierungen darstellt. GSST ist nicht als eigenständiges Kompressionsverfahren zu verstehen, sondern als spezialisierte Erweiterung von FSST, die dessen Einsatzbereich auf stark parallelisierte Hardwareplattformen ausdehnt.
+
+\subsubsection{Fast \& Strong: The Case of Compressed String Dictionaries on Modern CPUs (Fast \& Strong)}
+In diesem Paper \cite{lasch} untersuchen Lasch et al. den Zielkonflikt zwischen hoher Kompressionsrate und effizientem Laufzeitverhalten in spaltenorientierten Datenbanksystemen. Die Arbeit adressiert die Frage, inwieweit stärkere Kompressionsverfahren, die üblicherweise mit höherem Rechenaufwand verbunden sind, dennoch für analytische Datenbanklasten geeignet sein können. Der Fokus liegt dabei auf der systematischen Kombination und Bewertung mehrerer Kompressionstechniken innerhalb eines spaltenorientierten Speicherlayouts.
+
+Der vorgestellte Ansatz nutzt eine mehrstufige Kompressionspipeline, bei der einfache Verfahren wie Wörterbuchkodierung oder Lauflängenkodierung mit stärker komprimierenden Techniken kombiniert werden. Dadurch soll erreicht werden, dass die Redundanzen innerhalb einzelner Spalten möglichst effektiv ausgenutzt werden, ohne die Dekompressionskosten für typische Abfrageoperationen übermäßig zu erhöhen. Die Autoren zeigen, dass sich durch eine geeignete Auswahl und Kombination der Verfahren sowohl hohe Kompressionsraten als auch akzeptable Zugriffslatenzen erzielen lassen. Zusätzlich nutzen die Autoren vektorisierte Dekompressionsroutinen unter Verwendung moderner SIMD-Instruktionen (z. B. AVX-basierter Erweiterungen), um den erhöhten Rechenaufwand stärker komprimierender Verfahren zu reduzieren. Im Gegensatz zu FSST stellt dies jedoch eine Implementierungsoptimierung dar und keinen grundlegenden Bestandteil des Kompressionsmodells.
+
+Als Ausgangspunkt dient Plain Front Coding (PFC), ein leichtgewichtiges Verfahren zur Kompression sortierter Zeichenkettenwörterbücher, das schnelle Zugriffe ermöglicht, jedoch nur moderate Kompressionsraten erreicht. Aufbauend darauf erweitert Re-Pair Front Coding (RPFC) diesen Ansatz um eine grammatikbasierte Kompression. Dadurch wird eine deutlich höhere Speicherreduktionen erreicht, allerdings auf Kosten erhöhter Zugriffs- und Kompressionszeiten. Diese Entwicklung ist in Abbildung \ref{fig:fast} schematisch dargestellt.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{figures/fast_mt_pfeilen}
+	\caption{Beispiel von PFC und RPFC. Nachbau aus \cite{lasch}}
+	\label{fig:fast}
+\end{figure}
+
+Ein zentrales Ergebnis der Arbeit ist, gestützt durch experimentelle Daten, die Beobachtung, dass stärker komprimierte Daten nicht zwangsläufig zu schlechterer Abfrageperformanz führen. Insbesondere bei I/O-lastigen analytischen Anfrageaufkommen kann die reduzierte Datenmenge die zusätzlichen Dekompressionskosten kompensieren oder sogar überwiegen. Damit widerspricht die Arbeit der verbreiteten Annahme, dass schnelle, aber schwach komprimierende Verfahren grundsätzlich vorzuziehen sind.
+
+Die Evaluation erfolgt anhand typischer analytischer Abfragen auf spaltenorientierten Datenbeständen und verdeutlicht, dass die optimale Wahl eines Kompressionsverfahrens stark vom jeweiligen Anfrageaufkommen abhängt. Die Ergebnisse unterstreichen die Bedeutung einer architektur- und lastabhängigen Auswahl von Kompressionsstrategien und liefern wichtige Erkenntnisse für den Entwurf moderner analytischer Datenbanksysteme.
+
+\subsubsection{OnPair: Short Strings Compression for Fast Random Access (OnPair)}
+OnPair \cite{onpair} ist ein wörterbuchbasiertes Kompressionsverfahren für kurze Zeichenketten, das speziell für In-Memory-Datenbanksysteme mit feingranularem direktem Zugriff entwickelt wurde. Der Ansatz zielt darauf ab, die hohe Kompressionswirkung starker Verfahren wie Byte-Pair Encoding (BPE) mit der Zugriffseffizienz leichtgewichtiger Verfahren wie FSST zu kombinieren und positioniert sich damit explizit zwischen diesen beiden Entwurfspunkten.
+
+Konzeptionell nutzt OnPair eine BPE-ähnliche Modellierung, bei der häufig gemeinsam auftretende Teilzeichenketten zu neuen Wörterbucheinträgen zusammengeführt werden. Im Unterschied zu klassischem BPE erfolgt der Wörterbuchaufbau jedoch inkrementell und sequenziell auf Basis einer Datenstichprobe. Dieser erfolgt aber ohne globale Paarstatistiken oder wiederholte vollständige Durchläufe über den Datensatz. Dadurch werden sowohl der Rechenaufwand als auch der Speicherbedarf der Trainingsphase deutlich reduziert.
+
+Nach der Trainingsphase werden alle Zeichenketten unabhängig voneinander komprimiert und als Sequenzen fester Token-IDs gespeichert. Dies ermöglicht direkten Zugriff auf einzelne Werte ohne blockweise Dekompression und macht den Ansatz gut geeignet für datenbanktypische Zugriffsmuster mit selektiven Abfragen. Eine optimierte Variante, OnPair16, beschränkt die maximale Länge von Wörterbucheinträgen auf 16 Byte, was eine besonders effiziente, hardwarefreundliche Dekompression ermöglicht, ohne die Kompressionsrate wesentlich zu verschlechtern.
+
+Die Evaluation zeigt, dass OnPair Kompressionsraten erreicht, die nahe an BPE liegen, bei gleichzeitig deutlich geringeren Trainingskosten und hoher Dekompressionsgeschwindigkeit. Gegenüber FSST erzielt der Ansatz eine stärkere Datenreduktion, nimmt dafür jedoch einen moderaten Mehraufwand bei der Kompression in Kauf. Insgesamt lässt sich OnPair als stark komprimierendes, aber dennoch zugriffseffizientes Textkompressionsverfahren einordnen, das den Zielkonflikt zwischen Kompressionsrate und datenbanknaher Zugriffseffizienz gezielt adressiert.
+
+\subsubsection{Dictionary-based Order-preserving String Compression for Main Memory Column Stores (DOPSC)}
+Binnig et al. \cite{binnig} stellen ein wörterbuchbasiertes Kompressionsverfahren vor, bei dem Ordnungseigenschaften von Zeichenketten erhalten bleiben müssen. Der zentrale Beitrag der Arbeit besteht darin, Kompression mit der Anforderung zu kombinieren, dass die lexikographische Ordnung der Originalzeichenketten auch in der komprimierten Darstellung erhalten bleibt. Diese Eigenschaft ist für Datenbanksysteme relevant, da viele Operationen wie Sortierungen, Bereichsanfragen oder Indexzugriffe auf der natürlichen Ordnung von Zeichenketten basieren.
+
+Der vorgestellte Ansatz verwendet eine Wörterbuchkodierung, bei der häufig auftretende Zeichenketten oder Teilzeichenketten durch kompakte Codes ersetzt werden. Im Unterschied zu klassischen Wörterbuchkodierungsverfahren wird das Wörterbuch jedoch so konstruiert, dass die resultierenden Codes die ursprüngliche lexikographische Ordnung der Werte widerspiegeln. Dadurch können Vergleichsoperationen direkt auf den komprimierten Repräsentationen durchgeführt werden, ohne eine vorherige Dekompression der Daten zu erfordern.
+
+Binnig et al. veranschaulichen den Ablauf der ordnungserhaltenden Wörterbuchkompression anhand einer schematischen Darstellung des Datenflusses von der Ladephase bis zur Anfrageausführung \cite[Fig.~1]{binnig}. Die Abbildung verdeutlicht insbesondere, wie Vergleichsoperationen direkt auf kodierten Werten durchgeführt werden können, ohne eine vollständige Dekompression der zugrunde liegenden Zeichenketten zu erfordern.
+
+Ein wesentlicher Vorteil dieses Ansatzes liegt in der Unterstützung von direktem Zugriff und vergleichsbasierter Anfrageverarbeitung auf komprimierten Daten. Datenbankoperatoren wie Selektionen oder Sortierungen können effizient ausgeführt werden, da die Ordnungseigenschaften der Daten erhalten bleiben. Gleichzeitig bleibt der Speichermehraufwand für das Wörterbuch überschaubar, da es auf die im Datenbestand tatsächlich vorkommenden Zeichenketten beschränkt ist.
+
+Die experimentellen Ergebnisse zeigen, dass das vorgestellte Verfahren primär für spaltenorientierte Datenbanksysteme geeignet ist, in denen Zeichenkettenattribute häufig sortiert oder gruppiert verarbeitet werden. Im Vergleich zu nicht ordnungserhaltenden Kompressionsverfahren werden zwar teilweise geringere Kompressionsraten erzielt. Dieser Nachteil wird jedoch durch die Einsparung von Dekompressionskosten während der Anfrageverarbeitung kompensiert. Der Ansatz verdeutlicht damit einen wichtigen Zielkonflikt zwischen maximaler Datenreduktion und effizienter Ausführung datenbanktypischer Operationen.
+
+\subsubsection{AlphaZip: Neural Network-Enhanced Lossless Text Compression (AlphaZip)}
+Mit AlphaZip \cite{alpha} präsentieren die Autoren einen Ansatz zur verlustfreien Textkompression, der neuronale Netze zur Modellierung der Eingabedaten nutzt. Im Gegensatz zu klassischen statistischen oder wörterbuchbasierten Verfahren zielt die Arbeit darauf ab, komplexe Abhängigkeiten und Muster in Textdaten durch lernbasierte Modelle zu erfassen, um eine genauere Vorhersage der nächsten Symbole zu ermöglichen. Der Ansatz ordnet sich damit in die wachsende Forschung zu maschinellem Lernen für Datenkompression ein.
+
+AlphaZip kombiniert ein neuronales Sprachmodell mit einem nachgelagerten Entropiekodierungsverfahren. Das neuronale Netz wird darauf trainiert, Wahrscheinlichkeitsverteilungen für die nächsten Zeichen vorherzusagen, die anschließend für eine effiziente Kodierung genutzt werden. Durch die Verwendung tiefer neuronaler Netze können auch langfristige Abhängigkeiten in Texten berücksichtigt werden, was potenziell zu höheren Kompressionsraten führt als bei klassischen Modellen mit begrenztem Kontext.
+
+Die experimentellen Ergebnisse zeigen, dass AlphaZip bei allgemeinen Textkorpora teilweise bessere Kompressionsraten erzielt als etablierte verlustfreie Verfahren. Gleichzeitig wird jedoch deutlich, dass dieser Gewinn mit erheblichem Rechenaufwand verbunden ist. Insbesondere das Training und die Inferenz der neuronalen Modelle erfordern deutlich mehr Rechenzeit und Speicherressourcen als klassische Kompressionsalgorithmen. Zudem ist der Ansatz nicht auf direkten Zugriff oder partielle Dekompression einzelner Zeichenketten ausgelegt, da die Dekodierung sequenziell erfolgt.
+
+Im Kontext von Datenbanksystemen bringt das einige Einschränkungen mit sich. Zwar demonstriert AlphaZip das Potenzial lernbasierter Modelle für die Textkompression, aber die fehlende Unterstützung von direktem Zugriff sowie die hohen Laufzeit- und Ressourcenanforderungen machen den Ansatz für datenbanknahe Anwendungen derzeit nur eingeschränkt geeignet. Die Arbeit ist daher weniger als praktikable Lösung für Datenbanksysteme zu verstehen, sondern vielmehr als explorativer Beitrag, der zeigt, wie maschinelles Lernen zur weiteren Verbesserung von Kompressionsraten eingesetzt werden kann.
+
+\subsubsection{Vergleich und Einordnung der Ansätze}
+Die betrachteten Arbeiten verfolgen unterschiedliche Zielsetzungen und lassen sich daher nicht sinnvoll durch einzelne Leistungswerte vergleichen, sondern müssen entlang ihrer Entwurfsentscheidungen eingeordnet werden. Da im Datenbankkontext meistens eine exakte Rekonstruktion der Daten erforderlich ist, gehören alle betrachteten Verfahren zur verlustfreien Kompression. Daher ist der Informationsverlust im folgenden Vergleich kein Kriterium, sondern die Art der modellierten Redundanz sowie die daraus resultierenden Zugriffseigenschaften und das Laufzeitverhalten.
+
+Eine erste Gruppe bilden zugriffsoptimierte Verfahren, deren primäres Ziel eine möglichst geringe Dekompressionslatenz ist. FSST verfolgt dieses Prinzip konsequent durch eine statische Symboltabelle und ermöglicht den unabhängigen Zugriff auf einzelne Zeichenketten. Die GPU-Erweiterung GSST verstärkt diese Eigenschaft zusätzlich durch Parallelisierung, ohne das zugrunde liegende Kompressionsformat zu verändern. Auch DOPSC bewegt sich in diesem Bereich, erweitert den Ansatz jedoch um die Erhaltung der lexikographischen Ordnung, wodurch Vergleichs- und Sortieroperationen direkt auf komprimierten Daten durchgeführt werden können. In diesen Verfahren wird Redundanz hauptsächlich über wiederkehrende Teilzeichenketten modelliert, während eine moderate Kompressionsrate bewusst zugunsten effizienter Anfrageverarbeitung akzeptiert wird.
+
+Demgegenüber stehen stärker komprimierende Verfahren, die eine höhere Datenreduktion anstreben und zusätzliche Rechenkosten in Kauf nehmen. Die in Fast \& Strong untersuchten mehrstufigen Kompressionspipelines kombinieren mehrere klassische Verfahren, um strukturelle und statistische Redundanzen möglichst vollständig auszunutzen. Dabei zeigt sich, dass erhöhte Dekompressionskosten in analytischen Szenarien teilweise durch reduzierte I/O-Kosten kompensiert werden können. AlphaZip geht noch einen Schritt weiter und nutzt probabilistische Modelle zur Vorhersage von Symbolen, wodurch sehr hohe Kompressionsraten erreicht werden, jedoch auf Kosten erheblicher Laufzeit- und Ressourcenanforderungen sowie fehlender Direktzugriffseigenschaften.
+
+Zwischen diesen beiden Extremen positioniert sich OnPair. Der Ansatz kombiniert eine BPE-ähnliche Modellierung mit datenbankgeeigneten Zugriffseigenschaften und erreicht damit eine stärkere Kompression als leichtgewichtige Verfahren wie FSST, ohne deren Zugriffseffizienz vollständig aufzugeben. OnPair verdeutlicht damit den Zielkonflikt zwischen Kompressionsrate und direkter Zugriffsfähigkeit und stellt einen Mittelweg zwischen latenzoptimierten und stark komprimierenden Ansätzen dar.
+
+Zusammenfassend wird deutlich, dass sich die Verfahren weniger durch absolute Leistungswerte unterscheiden als durch ihre zugrunde liegenden Optimierungsziele. Zugriffsoptimierte Verfahren priorisieren geringe Latenz und direkte Verarbeitung auf komprimierten Daten, während stärker komprimierende Ansätze vor allem speicher- und I/O-intensive analytische Anfrageaufkommen adressieren. Hybride Verfahren versuchen beide Ziele auszubalancieren, erreichen jedoch typischerweise keine Extremwerte in beiden Dimensionen gleichzeitig.
+
+Damit lassen sich die betrachteten Arbeiten grob in drei Kategorien einordnen: zugriffsoptimierte Verfahren wie FSST, stärker komprimierende Ansätze wie Fast \& Strong oder AlphaZip sowie hybride Verfahren wie OnPair. Die Wahl eines geeigneten Kompressionsverfahrens hängt folglich nicht von einer universellen Überlegenheit ab, sondern vom jeweiligen Datenbanktyp und Anfrageaufkommen.
+
+\subsection{Evaluation}\label{ev}
+Dieses Kapitel bewertet die Ergebnisse der vorliegenden Arbeit und reflektiert kritisch, ob die formulierte Problemstellung tatsächlich betrachtet wird und ob die gesetzten Ziele tatsächlich erreicht wurden. Da es sich hierbei um eine Übersicht des Forschungsfeldes handelt, beruht die Evaluation nicht auf eigenen experimentellen Messungen, sondern auf der systematischen Analyse, Einordnung und Gegenüberstellung bestehender Forschungsarbeiten zu Textkompressionsalgorithmen im Datenbankkontext.
+
+Die analysierten Arbeiten decken ein breites Spektrum an Kompressionsansätzen ab, das von leichtgewichtigen, zugriffsoptimierten Verfahren bis hin zu stärker komprimierenden, rechenintensiveren Methoden reicht. Durch die Anwendung einheitlicher Bewertungskriterien, wie Kompressionsrate, Zugriffs- und (De-)Kompressionszeiten, Speichermehraufwand sowie Unterstützung von direktem Zugriff, konnten die Verfahren vergleichbar eingeordnet werden. Die Ergebnisse verdeutlichen, dass die Leistungsfähigkeit eines Kompressionsverfahrens stark von der jeweiligen Datenbankarchitektur und dem zu Grunde liegenden Anfrageaufkommen abhängt und kein universell optimales Verfahren existiert.
+
+Die zentrale Problemstellung dieser Arbeit bestand darin, einen strukturierten Überblick über Textkompressionsalgorithmen in Datenbanksystemen zu geben und unterschiedliche Ansätze systematisch vergleichbar zu machen. Dieses Ziel wurde erreicht, indem ein konzeptioneller Rahmen entwickelt wurde, der sowohl theoretische Grundlagen der Datenkompression als auch datenbankspezifische Anforderungen berücksichtigt. Auf dieser Basis konnten die betrachteten Arbeiten nachvollziehbar eingeordnet und ihre jeweiligen Stärken, Schwächen und Zielkonflikte herausgearbeitet werden.
+
+Das im Konzeptteil entwickelte Vorgehen hat sich als geeignet erwiesen, um heterogene Forschungsarbeiten konsistent zu analysieren. Die klare Trennung zwischen Grundlagen, Modellierungsansätzen, Bewertungskriterien und deren Anwendung auf konkrete Arbeiten erleichtert die Vergleichbarkeit der Ansätze. Insbesondere die explizite Fokussierung auf datenbankrelevante Eigenschaften wie direkter Zugriff, Dekompressionslatenz und Speichermehraufwand hat sich als sinnvoll erwiesen, um die praktische Relevanz der Verfahren zu beurteilen. Jedoch gibt es noch viele weitere Bewertungskriterien, wie Energieverbrauch oder Cache-Effekte auf Hardwareebene, welche von dieser Arbeit nicht abgedeckt werden.
+
+Trotz der erreichten Zielsetzung unterliegt die vorliegende Arbeit mehreren Einschränkungen. Die Auswahl der betrachteten Arbeiten erfolgte gezielt und ist daher nicht vollständig repräsentativ für alle existierenden Ansätze zur Textkompression. Verfahren außerhalb des klassischen Datenbankkontexts oder sehr neue Arbeiten konnten nur eingeschränkt berücksichtigt werden. Zudem basiert der Vergleich der Verfahren auf den in den jeweiligen Publikationen berichteten Evaluationsdaten, die sich hinsichtlich Datensätzen, Messmethoden und Systemumgebungen unterscheiden. Ein direkter quantitativer Vergleich ist daher nur eingeschränkt möglich und wurde bewusst durch eine qualitative Einordnung ergänzt.
+
+Darüber hinaus verzichtet die Arbeit auf eine experimentelle Validierung der betrachteten Verfahren. Dadurch können Aussagen zur absoluten Leistungsfähigkeit einzelner Ansätze nicht unabhängig überprüft werden. Diese Einschränkung ist jedoch eine bewusste Folge des gewählten Ansatzes als Forschungsfeldübersicht und steht im Einklang mit der Zielsetzung der Arbeit, bestehende Forschung zu strukturieren und einzuordnen, anstatt neue empirische Ergebnisse zu erzeugen.
+
+Im Vergleich zu den analysierten verwandten Arbeiten, die jeweils konkrete Kompressionsverfahren entwerfen und evaluieren, verfolgt diese Arbeit einen übergreifenden Ansatz. Während Arbeiten wie FSST oder Fast \& Strong einzelne Entwurfsentscheidungen optimieren, stellt die vorliegende Arbeit deren Ergebnisse in einen gemeinsamen Kontext und macht die zu Grunde liegenden Zielkonflikte sichtbar. Diese Perspektive ergänzt bestehende Forschungsarbeiten, ohne deren Ergebnisse zu replizieren oder zu ersetzen.
+
+Zusammenfassend zeigt die Evaluation, dass die gewählte Methodik geeignet ist, um das Forschungsfeld der Textkompression in Datenbanksystemen strukturiert darzustellen und kritisch zu analysieren. Trotz der genannten Limitationen wurde die Problemstellung adressiert, das konzeptionelle Vorgehen erfolgreich angewendet und ein vergleichender Überblick über relevante Ansätze geschaffen. Die Arbeit bietet damit eine fundierte Grundlage für weiterführende Untersuchungen, etwa in Form empirischer Evaluationen oder der Analyse zusätzlicher Kompressionsverfahren.
+
+\section{Schluss}\label{sc}
+Diese Arbeit hat gezeigt, dass Textkompression im Datenbankkontext kein isoliertes Optimierungsproblem darstellt, sondern eng mit Architekturentscheidungen, Zugriffsmustern und Anwendungsanforderungen verknüpft ist. Die betrachteten Ansätze verdeutlichen, dass unterschiedliche Zielsetzungen, wie etwa maximale Speicherreduktion, geringe Latenz oder die Unterstützung direkter Zugriffe, zu unterschiedlichen Kompressionsstrategien führen und jeweils spezifische Vor- und Nachteile mit sich bringen.
+
+Durch die strukturierte Einordnung ausgewählter Forschungsarbeiten konnte herausgearbeitet werden, dass sich Kompressionsverfahren nicht unabhängig von ihrem Einsatzszenario bewerten lassen. Statt eines universellen Lösungsansatzes existiert vielmehr ein Spektrum spezialisierter Verfahren, die jeweils für bestimmte Datenbanktypen und Anfrageaufkommen geeignet sind. Diese Erkenntnis unterstreicht die Notwendigkeit einer kontextabhängigen Auswahl von Kompressionsverfahren in modernen Datenbanksystemen.
+
+Gleichzeitig macht die Analyse deutlich, dass weitere Aspekte bei der Bewertung von Kompressionsverfahren eine Rolle spielen können, die in dieser Arbeit nicht umfassend berücksichtigt wurden. Insbesondere hardwareabhängige Effekte, Energieverbrauch sowie dynamische Anfrageaufkommen mit häufigen Aktualisierungen bieten Ansatzpunkte für weiterführende Untersuchungen. Zukünftige Arbeiten könnten zudem durch eigene Implementierungen oder vergleichende Experimente unter einheitlichen Rahmenbedingungen zu einer vertieften Bewertung einzelner Ansätze beitragen.
+
+Insgesamt liefert diese Arbeit einen strukturierten Überblick über aktuelle zentrale Entwicklungen und Zielkonflikte der Textkompression in Datenbanksystemen. Dadurch wird eine Grundlage für eine weiterführende, praxisnahe Auseinandersetzung mit diesem Forschungsfeld geschaffen.
+
+\begin{thebibliography}{1}
+\bibitem{Raichand}
+P. Raichand und R. Aggarwal. ``A SHORT SURVEY OF DATA COMPRESSION TECHNIQUES FOR
+COLUMN ORIENTED DATABASES'' in  \textit{Journal of Global Research in Computer Science, vol. 4, no. 7, pp. 43-46, 2013.}
+
+\bibitem{salomon}
+D. Salomon. ``Data Compression – The Complete Reference'', \textit{3rd ed., Springer, 2004.}
+
+\bibitem{kaufmann}
+M. Kaufmann und A. Meier. ``SQL- \& NoSQL-Datenbanken'', \textit{9th ed., Springer, 2023.}
+
+\bibitem{fsst}
+P. Boncz, T. Neumann und V. Leis. ``FSST: Fast random access string compression'', \textit{Proceedings of the VLDB Endowment 13, pp. 2649–2661, 2020.}
+
+\bibitem{binnig}
+C. Binnig, S. Hildebrand und F. Färber. ``Dictionary-based order-preserving string compression for main memory column stores'', \textit{Proceedings of the 2009 ACM SIGMOD International Conference on Management of Data, pp. 283-296, 2009}
+
+\bibitem{lasch}
+R. Lasch, I. Oukid, R. Dementievand, N. May, S. Demirsoy und K. Sattler. ``Fast \& Strong: The Case of Compressed String Dictionaries on Modern CPUs'', \textit{Proceedings of the 15th International Workshop on Data Management on New Hardware, 2019}
+
+\bibitem{alpha}
+S. Narashiman und N. Chandrachoodan. ``AlphaZip: Neural Network-Enhanced Lossless Text Compression'', \textit{arXiv, 2024}
+
+\bibitem{gsst}
+R. Vonk, J. Hoozemans und Z. Al-Ars. ``GSST: Parallel string decompression at 191 GB/s on GPU'', \textit{Proceedings of the 5th Workshop on Challenges and Opportunities of Efficient and Performant Storage Systems, pp. 8 - 14, 2025}
+
+\bibitem{faster}
+R. Lasch, I. Oukid, R. Dementiev, et al. ``Faster \& strong: string dictionary compression using sampling and fast vectorized decompression'', \textit{The VLDB Journal 29, pp. 1263–1285, 2020}
+
+\bibitem{damme}
+P. Damme, D. Habich, J. Hildebrandt, W. Lehner. ``Lightweight Data Compression Algorithms: An Experimental Survey'', \textit{Proc. 20th International Conference on Extending Database Technology, 2017}
+
+\bibitem{onpair}
+F. Gargiulo und R. Venturini. ``OnPair: Short Strings Compression for Fast Random Access'', \textit{arXiv, 2025}
+
+\bibitem{abadi}
+D. Abadi, S. Madden und N. Hachem. ``Column-stores vs. row-stores: how different are they really?'', \textit{Association for Computing Machinery, 2008}
+\end{thebibliography}
+
+\end{document}
+
+
