@@ -229,7 +229,7 @@ David Roppelt, Mail: david.roppelt@fau.de \and%
 \section{Grundlagen}
 
 \subsection{Verlustfreie vs. verlustbehaftete Kompression}
-\begin{frame}{Verlustfreie vs. verlustbehaftete Kompression}
+\begin{frame}{Verlustfreie vs. verlustbehaftete Kompression \cite{salomon2004datacompression}}
 		
 	\begin{columns}[T]
 		
@@ -269,22 +269,119 @@ David Roppelt, Mail: david.roppelt@fau.de \and%
 			\end{itemize}
 		\end{block}		
 	\end{columns}
-	
+	\footnotetext{\color{BaseColor}\hyperlink{ref}{Sal04}  \color{black}Salomon D. (2004). \emph{Data Compression: The Complete Reference}.}
 \end{frame}
-\subsection{Informationsreduktion}
-\subsubsection{Entropie}
-\subsubsection{Redundanz}
-\subsubsection{Kodierung}
+\subsection{Prinzipien der Informationsreduktion}
+\begin{frame}{Prinzipien der Informationsreduktion \cite{salomon2004datacompression}}
+	
+	\begin{block}{Entropie}
+		\begin{itemize}
+			\item Maß für die durchschnittliche Informationsmenge einer Datenquelle
+			\item Definiert die theoretische Untergrenze der Kompression
+			\item Hohe Entropie $\rightarrow$ geringe Komprimierbarkeit
+		\end{itemize}
+	\end{block}
+	
+	\begin{block}{Redundanz}
+		\begin{itemize}
+			\item Wiederkehrende oder vorhersehbare Strukturen in Daten
+			\item Kann entfernt werden, ohne Information zu verlieren
+			\item Grundlage jeder verlustfreien Kompression
+		\end{itemize}
+	\end{block}
+	
+	\begin{block}{Kodierung}
+		\begin{itemize}
+			\item Systematische Zuordnung von Symbolen zu Codewörtern
+			\item Häufige Symbole erhalten kürzere Codes
+			\item Muss eindeutig dekodierbar sein
+		\end{itemize}
+	\end{block}
+	\footnotetext{\color{BaseColor}\hyperlink{ref}{Sal04}  \color{black}Salomon D. (2004). \emph{Data Compression: The Complete Reference}.}
+\end{frame}
 
 \subsection{Modellierungsansätze der Kompression}
+%weglassen?
 \subsubsection{Statistische Verfahren}
 \subsubsection{Wörterbuchbasierte Verfahren}
 
 \subsection{Bewertungskriterien von Kompressionsverfahren}
+	\begin{frame}{Bewertungskriterien von Kompressionsverfahren}
+		\begin{block}{Kompressionsrate}
+			\begin{itemize}
+				\item Verhältnis zwischen Originalgröße und komprimierter Größe
+				\item Maß für Speicherersparnis
+			\end{itemize}
+		\end{block}
+		
+		\begin{block}{Kompressions- und Dekompressionsgeschwindigkeit}
+			\begin{itemize}
+				\item Laufzeit beim Komprimieren und Dekomprimieren
+				\item Entscheidend für Abfrageperformance
+			\end{itemize}
+		\end{block}
+		
+		\begin{block}{Speichermehraufwand}
+			\begin{itemize}
+				\item Zusätzlicher Speicher für Metadaten oder Wörterbücher
+				\item Einfluss auf Gesamteffizienz
+			\end{itemize}
+		\end{block}
+		
+		\begin{block}{Direkter Zugriff}
+			\begin{itemize}
+				\item Möglichkeit, auf einzelne Werte ohne vollständige Dekompression zuzugreifen
+				\item Besonders relevant für analytische Workloads
+			\end{itemize}
+		\end{block}
+	\end{frame}
 \subsection{Datenbankarchitekturen}
-\subsubsection{Relationale Datenbanken}
-\subsubsection{Spaltenorientierte Datenbanken}
-\subsubsection{NoSQL-Datenbanken}
+\begin{frame}{Datenbankarchitekturen \cite{abadi2008columnstores, kaufmann2023sqlnosql}}
+	
+	\begin{columns}[T,totalwidth=\textwidth]
+		
+		% ---- Linke Spalte ----
+		\column{0.48\textwidth}
+		
+		\begin{block}{Relationale Datenbanken (Row Store)}
+			\begin{itemize}
+				\item Speicherung zeilenweise
+				\item Optimiert für Transaktionen (OLTP)
+				\item Schneller Zugriff auf vollständige Tupel
+				\item Kompression meist sekundär
+			\end{itemize}
+		\end{block}
+		
+		\begin{block}{Spaltenorientierte Datenbanken (Column Store)}
+			\begin{itemize}
+				\item Speicherung spaltenweise
+				\item Optimiert für analytische Abfragen (OLAP)
+				\item Hohe Komprimierbarkeit durch ähnliche Werte
+				\item Kompression zentraler Bestandteil
+			\end{itemize}
+		\end{block}
+		
+		% ---- Rechte Spalte ----
+		\column{0.48\textwidth}
+		
+		\begin{block}{NoSQL-Datenbanken}
+			\begin{itemize}
+				\item Flexible Datenmodelle (z.\,B. Dokumente, Key-Value)
+				\item Hohe Skalierbarkeit
+				\item Oft generische Kompressionsverfahren
+				\item Fokus auf Verfügbarkeit und Verteilung
+			\end{itemize}
+		\end{block}
+		
+	\end{columns}
+	
+	\vspace{0.3cm}
+	
+	\textbf{Relevanz:}  
+	Die Datenbankarchitektur beeinflusst maßgeblich die Wahl des geeigneten Kompressionsverfahrens.
+	\footnotetext{\color{BaseColor}\hyperlink{ref}{AMH08}  \color{black}Abadi et al. (2008). \emph{Column-stores vs. Row-stores: How Different Are They Really?}.}
+	\footnotetext{\color{BaseColor}\hyperlink{ref}{KM23}  \color{black}Kaufmann M. und Meier A. (2023). \emph{SQL- \& NoSQL-Datenbanken}.}
+\end{frame}
 
 
 \section{Analyse ausgewählter Kompressionsverfahren}
@@ -308,6 +405,7 @@ David Roppelt, Mail: david.roppelt@fau.de \and%
 			\item Direkter Zugriff auf einzelne Blöcke möglich
 			\item Geringer Speichermehraufwand
 			\item Gute Balance zwischen Speicherreduktion und Laufzeit
+			\item Nutzung moderner CPU-Vektorisierung (SIMD)
 		\end{itemize}
 		
 		\column{0.48\textwidth}
@@ -318,7 +416,7 @@ David Roppelt, Mail: david.roppelt@fau.de \and%
 			\label{fig:fsst}
 		\end{figure}
 	\end{columns}
-	\footnotetext{\color{BaseColor}BNL20  \color{black}Boncz, P.; Neumann, T.; Leis, V. (2020). \emph{FSST: Fast Random Access String Compression}.}
+	\footnotetext{\color{BaseColor}\hyperlink{ref}{BNL20}  \color{black}Boncz, P.; Neumann, T.; Leis, V. (2020). \emph{FSST: Fast Random Access String Compression}.}
 \end{frame}
 
 \begin{frame}{GSST: Parallel string decompression at 191 GB/s on GPU \cite{10.1145/3719330.3721228}}
@@ -349,9 +447,83 @@ David Roppelt, Mail: david.roppelt@fau.de \and%
 \end{frame}
 
 \subsection{DOPSC}
+{
+\begin{frame}{\large Dictionary-based order-preserving string compression for main memory column stores (DOPSC) \cite{DOPSC}}
+	
+	\begin{itemize}
+		\item Wörterbuchbasiertes, verlustfreies Kompressionsverfahren
+		\item Entwickelt für spaltenorientierte Datenbanksysteme
+		\item Fokus auf effiziente Vergleichs- und Sortieroperationen
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Zentrale Idee}
+	\begin{itemize}
+		\item Erhaltung der lexikographischen Ordnung
+		\item Vergleiche direkt auf komprimierten Daten möglich
+		\item Keine vollständige Dekompression notwendig
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Vorteile}
+	\begin{itemize}
+		\item Effiziente Intervallabfragen
+		\item Schnelles Sortieren
+		\item Gute Integration in spaltenorienterte Datenbanken
+	\end{itemize}
+	
+	\vspace{0.4cm}
+	
+	\textbf{Einordnung}
+	\begin{itemize}
+		\item Kompromiss zwischen Kompressionsrate und Zugriffsgeschwindigkeit
+		\item Besonders geeignet für analytische Workloads
+	\end{itemize}
+	
+	\footnotetext{\color{BaseColor}BHF09  \color{black}Binnig et al. (2025). \emph{Dictionary-based order-preserving string compression for main memory column stores}.}
+\end{frame}
+}
+
 
 \subsection{Fast \& Strong}
-
+	\begin{frame}[fragile]{Fast \& Strong: The Case of Compressed String Dictionaries on Modern CPUs \cite{fast}}
+	\begin{columns}[T]
+		\column{0.48\textwidth}
+		\begin{itemize}
+			\item Fokus auf höhere Kompressionsrate in spaltenorientierten Datenbanken
+			\item Untersuchung des Zielkonflikts zwischen Kompression und Laufzeit
+			\item Kombination mehrerer Kompressionstechniken (mehrstufige Pipeline)
+		\end{itemize}
+		
+		\vspace{0.4cm}
+		
+		\textbf{Zentrale Idee}
+		\begin{itemize}
+			\item Stärkere Kompression reduziert I/O-Kosten
+			\item Zusätzliche Dekompressionskosten können durch weniger Datenzugriffe kompensiert werden
+			\item Ebenfalls Nutzung moderner CPU-Vektorisierung (SIMD)
+		\end{itemize}
+		
+		\vspace{0.4cm}
+		
+		\textbf{Erkenntnis}
+		\begin{itemize}
+			\item Mehr Kompression bedeutet nicht automatisch schlechtere Abfrageperformance
+			\item Optimale Wahl hängt vom Workload ab
+		\end{itemize}
+		
+		\column{0.48\textwidth}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\linewidth]{figures/fast_mt_pfeilen}
+			\caption{Beispiel von PFC und RPFC. Nachbau aus \cite{fast}}
+			\label{fig:fsst}
+		\end{figure}
+	\end{columns}
+	\footnotetext{\color{BaseColor}\hyperlink{ref}{Las+19}  \color{black}Lasch et al. (2019). \emph{Fast \& Strong: The Case of Compressed String Dictionaries on Modern CPUs}.}
+	\end{frame}
 \subsection{AlphaZip}
 
 \subsection{OnPair}
@@ -380,10 +552,9 @@ David Roppelt, Mail: david.roppelt@fau.de \and%
 	\titlepage%
 \end{frame}
 
-\begin{frame}{Referenzen}
-	\begin{block}{Referenzen}
-		\printbibliography[heading=none]
-	\end{block}
+\begin{frame}[allowframebreaks]{Referenzen}
+	\label{ref}
+	\printbibliography[heading=none]
 \end{frame}
 %
 %

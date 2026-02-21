@@ -42,3 +42,75 @@ numpages = {7},
 location = {Rotterdam, Netherlands},
 series = {CHEOPS '25}
 }
+
+@inproceedings{fast,
+author = {Lasch, Robert and Oukid, Ismail and Dementiev, Roman and May, Norman and Demirsoy, Suleyman S. and Sattler, Kai-Uwe},
+title = {Fast \& Strong: The Case of Compressed String Dictionaries on Modern CPUs},
+year = {2019},
+isbn = {9781450368018},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3329785.3329924},
+doi = {10.1145/3329785.3329924},
+abstract = {String dictionaries constitute a large portion of the memory foot-print of database applications. While strong string dictionary compression algorithms exist, these come with impractical access and compression times. Therefore, lightweight algorithms such as front coding are favored in practice. This paper endeavors to make strong string dictionary compression practical. We focus on Re-Pair Front Coding (RPFC), a grammar-based compression algorithm, since it consistently offers better compression ratios than other algorithms in the literature. To accelerate compression times, we propose block-based RPFC, which consists in compressing independently small blocks of the dictionary. Moreover, to accelerate access times, we devise a vectorized access method, using Intel® Advanced Vector Extensions 512 (Intel® AVX-512), that is enabled by two specific changes we propose to RPFC. Our experimental evaluation shows that our proposed techniques accelerate compression and access times by up to 24x and 2.9x, respectively. These results move our modified RPFC into a practical range for use in database systems.},
+booktitle = {Proceedings of the 15th International Workshop on Data Management on New Hardware},
+articleno = {4},
+numpages = {10},
+location = {Amsterdam, Netherlands},
+series = {DaMoN'19}
+}
+
+@misc{onpair,
+      title={OnPair: Short Strings Compression for Fast Random Access}, 
+      author={Francesco Gargiulo and Rossano Venturini},
+      year={2025},
+      eprint={2508.02280},
+      archivePrefix={arXiv},
+      primaryClass={cs.DB},
+      url={https://arxiv.org/abs/2508.02280}, 
+}
+
+@book{salomon2004datacompression,
+  author    = {David Salomon},
+  title     = {Data Compression: The Complete Reference},
+  edition   = {3},
+  year      = {2004},
+  publisher = {Springer},
+  address   = {New York}
+}
+
+@book{kaufmann2023sqlnosql,
+  author    = {Michael Kaufmann and Andreas Meier},
+  title     = {SQL- \& NoSQL-Datenbanken},
+  edition   = {9},
+  year      = {2023},
+  publisher = {Springer},
+  address   = {Berlin, Heidelberg}
+}
+
+@inproceedings{abadi2008columnstores,
+  author    = {Daniel J. Abadi and Samuel R. Madden and Nabil Hachem},
+  title     = {Column-stores vs. Row-stores: How Different Are They Really?},
+  booktitle = {Proceedings of the ACM SIGMOD International Conference on Management of Data},
+  year      = {2008},
+  publisher = {ACM},
+  pages     = {967--980}
+}
+
+@inproceedings{DOPSC,
+author = {Binnig, Carsten and Hildenbrand, Stefan and F\"{a}rber, Franz},
+title = {Dictionary-based order-preserving string compression for main memory column stores},
+year = {2009},
+isbn = {9781605585512},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1559845.1559877},
+doi = {10.1145/1559845.1559877},
+abstract = {Column-oriented database systems [19, 23] perform better than traditional row-oriented database systems on analytical workloads such as those found in decision support and business intelligence applications. Moreover, recent work [1, 24] has shown that lightweight compression schemes significantly improve the query processing performance of these systems. One such a lightweight compression scheme is to use a dictionary in order to replace long (variable-length) values of a certain domain with shorter (fixedlength) integer codes. In order to further improve expensive query operations such as sorting and searching, column-stores often use order-preserving compression schemes.In contrast to the existing work, in this paper we argue that orderpreserving dictionary compression does not only pay off for attributes with a small fixed domain size but also for long string attributes with a large domain size which might change over time. Consequently, we introduce new data structures that efficiently support an order-preserving dictionary compression for (variablelength) string attributes with a large domain size that is likely to change over time. The main idea is that we model a dictionary as a table that specifies a mapping from string-values to arbitrary integer codes (and vice versa) and we introduce a novel indexing approach that provides efficient access paths to such a dictionary while compressing the index data. Our experiments show that our data structures are as fast as (or in some cases even faster than) other state-of-the-art data structures for dictionaries while being less memory intensive.},
+booktitle = {Proceedings of the 2009 ACM SIGMOD International Conference on Management of Data},
+pages = {283–296},
+numpages = {14},
+keywords = {string compression, column store},
+location = {Providence, Rhode Island, USA},
+series = {SIGMOD '09}
+}
